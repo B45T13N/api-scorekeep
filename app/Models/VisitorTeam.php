@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VisitorTeam extends Model
 {
@@ -18,4 +19,12 @@ class VisitorTeam extends Model
         'name',
         'category',
     ];
+
+    /**
+     * Get the game that owns the visitorTeam.
+     */
+    public function game(): BelongsTo
+    {
+        return $this->belongsTo(Game::class);
+    }
 }

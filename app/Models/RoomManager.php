@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RoomManager extends Model
 {
@@ -18,4 +19,12 @@ class RoomManager extends Model
         'name',
         'email',
     ];
+
+    /**
+     * Get the game that owns the room Manager.
+     */
+    public function game(): BelongsTo
+    {
+        return $this->belongsTo(Game::class);
+    }
 }
