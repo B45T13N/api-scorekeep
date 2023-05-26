@@ -17,15 +17,15 @@ return new class extends Migration
             $table->string('category');
             $table->string('gameDate');
 
-            $table->integer('timekeeper_id')->unsigned();
-            $table->integer('secretary_id')->unsigned();
-            $table->integer('room_manager_id')->unsigned();
-            $table->integer('visitor_team_id')->unsigned();
+            $table->bigInteger('timekeeperId')->unsigned();
+            $table->bigInteger('secretaryId')->unsigned();
+            $table->bigInteger('roomManagerId')->unsigned();
+            $table->bigInteger('visitorTeamId')->unsigned();
 
-            $table->foreign('timekeeper_id')->references('id')->on('time_keepers');
-            $table->foreign('secretary_id')->references('id')->on('secretaries');
-            $table->foreign('room_manager_id')->references('id')->on('room_managers');
-            $table->foreign('visitor_team_id')->references('id')->on('visitor_teams');
+            $table->foreign('timekeeperId')->references('id')->on('timekeepers');
+            $table->foreign('secretaryId')->references('id')->on('secretaries');
+            $table->foreign('roomManagerId')->references('id')->on('room_managers');
+            $table->foreign('visitorTeamId')->references('id')->on('visitor_teams');
 
             $table->timestamps();
         });
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('game');
+        Schema::dropIfExists('games');
     }
 };

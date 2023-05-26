@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('visitor_teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('visitor_team');
+        Schema::dropIfExists('visitor_teams');
     }
 };
