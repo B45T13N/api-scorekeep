@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GameResource;
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResource
     {
-        //
+        return GameResource::collection(Game::all());
     }
 
     /**
