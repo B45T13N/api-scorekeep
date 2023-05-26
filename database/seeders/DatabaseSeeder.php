@@ -3,6 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Game;
+use App\Models\RoomManager;
+use App\Models\Secretary;
+use App\Models\Timekeeper;
+use App\Models\VisitorTeam;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +23,11 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        RoomManager::factory(15)->create();
+        Timekeeper::factory(15)->create();
+        Secretary::factory(15)->create();
+        VisitorTeam::factory(15)->create();
+        Game::factory(10)->create();
     }
 }
