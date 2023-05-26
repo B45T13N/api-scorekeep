@@ -23,10 +23,10 @@ class GameResource extends JsonResource
             'address' => $this->address,
             'category' => $this->category,
             'gameDate' => $this->gameDate,
-            'timekeeper' => new TimekeeperResource(Timekeeper::query()->where('id', $this->timekeeper_id)->firstOrFail()),
-            'secretary' => new SecretaryResource(Secretary::query()->where('id', $this->secretary_id)->firstOrFail()),
-            'room_manager' => new RoomManagerResource(RoomManager::query()->where('id', $this->room_manager_id)->firstOrFail()),
-            'visitorTeam' => new VisitorTeamResource(VisitorTeam::query()->where('id', $this->visitor_team_id)->firstOrFail()),
+            'timekeeper' => new TimekeeperResource(Timekeeper::query()->where('id', $this->timekeeperId)->firstOrFail()),
+            'secretary' => new SecretaryResource(Secretary::query()->where('id', $this->secretaryId)->firstOrFail()),
+            'room_manager' => new RoomManagerResource(RoomManager::query()->where('id', $this->roomManagerId)->firstOrFail()),
+            'visitorTeam' => new VisitorTeamResource(VisitorTeam::query()->where('id', $this->visitorTeamId)->firstOrFail()),
         ];
     }
 }
