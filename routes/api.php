@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\RoomManagerController;
+use App\Http\Controllers\SecretaryController;
+use App\Http\Controllers\TimekeeperController;
+use App\Http\Controllers\VisitorTeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +24,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('games', [GameController::class, 'index'])->name('games.index');
+Route::get('games/{gameId}', [GameController::class, 'show'])->name('games.show');
+
+Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
+
+Route::post('games', [GameController::class, 'store'])->name('games.store');
+
+Route::get('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'show'])->name('visitor_teams.show');
+
+Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
+
+
+Route::post('room-managers/store', [RoomManagerController::class, 'store'])->name('room_managers.store');
+
+Route::post('secretaries/store', [SecretaryController::class, 'store'])->name('secretaries.store');
+
+Route::post('timekeepers/store', [TimekeeperController::class, 'store'])->name('timekeepers.store');
+
+
