@@ -21,11 +21,12 @@ class GameController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, VisitorTeamController $visitorTeamController)
     {
         $validatedData = $request->validate([
             'address' => 'required|string',
             'category' => 'required|string',
+            'visitorTeam' => 'required|string',
             'gameDate' =>
                 [
                     'required',
@@ -42,15 +43,10 @@ class GameController extends Controller
 
         $this->checkForeignKeys($request, $game);
 
+        $visitorTeamController->store($request['visitorTeam']);
+
         $game->save();
 
-        // Enregistrement de l'équipe visiteuse
-        if ($request->has('visitorTeam'))
-        {
-            // Code pour enregistrer l'équipe visiteuse
-        }
-
-        // Réponse de succès
         return response()->json(['message' => 'Match enregistré avec succès'], 201);
     }
 
