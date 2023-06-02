@@ -15,6 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
+
+            $table->bigInteger('gameId')->unsigned();
+
+            $table->foreign('gameId')->references('id')->on('games');
+
             $table->timestamps();
         });
     }

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('category');
             $table->string('gameDate');
 
-            $table->bigInteger('timekeeperId')->unsigned();
-            $table->bigInteger('secretaryId')->unsigned();
-            $table->bigInteger('roomManagerId')->unsigned();
-            $table->bigInteger('visitorTeamId')->unsigned();
+            $table->bigInteger('timekeeperId')->unsigned()->nullable();
+            $table->bigInteger('secretaryId')->unsigned()->nullable();
+            $table->bigInteger('roomManagerId')->unsigned()->nullable();
+            $table->bigInteger('visitorTeamId')->unsigned()->nullable();
 
             $table->foreign('timekeeperId')->references('id')->on('timekeepers')->onDelete('cascade');
             $table->foreign('secretaryId')->references('id')->on('secretaries')->onDelete('cascade');
