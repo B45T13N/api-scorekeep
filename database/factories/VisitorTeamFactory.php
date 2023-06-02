@@ -18,6 +18,7 @@ class VisitorTeamFactory extends Factory
     {
         return [
             'name' => fake("fr_FR")->city(),
+            'gameId' => rand(1, 10),
         ];
     }
 }

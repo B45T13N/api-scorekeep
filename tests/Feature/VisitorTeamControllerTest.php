@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Game;
 use App\Models\VisitorTeam;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,7 +14,9 @@ class VisitorTeamControllerTest extends TestCase
 
     public function testShow()
     {
-        $visitorTeam = VisitorTeam::factory()->create();
+        Game::factory()->create();
+
+        $visitorTeam = VisitorTeam::factory()->create(['gameId' => 1]);
 
         $response = $this->getJson('/api/visitor-teams/'.$visitorTeam->id);
 
@@ -27,7 +30,9 @@ class VisitorTeamControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $visitorTeam = VisitorTeam::factory()->create();
+        Game::factory()->create();
+
+        $visitorTeam = VisitorTeam::factory()->create(['gameId' => 1]);
 
         $updatedName = 'Updated Team';
 
@@ -46,7 +51,9 @@ class VisitorTeamControllerTest extends TestCase
 
     public function testUpdateWithInvalidData()
     {
-        $visitorTeam = VisitorTeam::factory()->create();
+        Game::factory()->create();
+
+        $visitorTeam = VisitorTeam::factory()->create(['gameId' => 1]);
 
         $response = $this->putJson('/api/visitor-teams/'.$visitorTeam->id, []);
 

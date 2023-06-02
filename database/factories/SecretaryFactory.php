@@ -18,7 +18,8 @@ class SecretaryFactory extends Factory
     {
         return [
             'name' => fake("fr_FR")->name(),
-            'email' => fake("fr_FR")->unique()->email()
+            'email' => fake("fr_FR")->unique()->email(),
+            'gameId' => rand(1, 10),
         ];
     }
 }

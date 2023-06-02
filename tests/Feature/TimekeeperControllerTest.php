@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Game;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TimekeeperControllerTest extends TestCase
@@ -12,12 +12,16 @@ class TimekeeperControllerTest extends TestCase
 
     public function testStore()
     {
+        Game::factory()->create();
+
         $name = 'John Doe';
         $email = 'johndoe@example.com';
+        $gameId = 1;
 
         $response = $this->postJson('/api/timekeepers/store', [
             'name' => $name,
             'email' => $email,
+            'gameId' => $gameId
         ]);
 
         $response->assertStatus(201)
@@ -26,6 +30,7 @@ class TimekeeperControllerTest extends TestCase
         $this->assertDatabaseHas('timekeepers', [
             'name' => $name,
             'email' => $email,
+            'gameId' => $gameId
         ]);
     }
 

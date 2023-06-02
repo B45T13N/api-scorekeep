@@ -34,6 +34,7 @@ class SecretaryController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
+            'gameId' => 'required|int'
         ]);
 
         try
@@ -42,6 +43,7 @@ class SecretaryController extends Controller
 
             $secretary->name = $validatedData['name'];
             $secretary->email = $validatedData['email'];
+            $secretary->gameId = $validatedData['gameId'];
 
             $secretary->save();
 

@@ -34,6 +34,7 @@ class TimekeeperController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
+            'gameId' => 'required|int'
         ]);
 
         try
@@ -42,6 +43,7 @@ class TimekeeperController extends Controller
 
             $timekeeper->name = $validatedData['name'];
             $timekeeper->email = $validatedData['email'];
+            $timekeeper->gameId = $validatedData['gameId'];
 
             $timekeeper->save();
 
