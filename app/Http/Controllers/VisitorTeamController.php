@@ -36,12 +36,12 @@ class VisitorTeamController extends Controller
     {
         try
         {
-            return new VisitorTeamResource(VisitorTeam::query()->findOrFail($visitorTeamId)->get());
+            return new VisitorTeamResource(VisitorTeam::query()->findOrFail($visitorTeamId)->first());
         }
         catch (ModelNotFoundException $e)
         {
             return response()->json([
-                'message' => 'Equipe visiteur non trouvé',
+                'message' => 'Equipe visiteur non trouvée',
                 'exception' => $e->getMessage()
             ], 404);
         }
@@ -54,7 +54,7 @@ class VisitorTeamController extends Controller
     {
         try
         {
-            $visitorTeam = VisitorTeam::query()->findOrFail($visitorTeamId)->get();
+            $visitorTeam = VisitorTeam::query()->findOrFail($visitorTeamId)->first();
 
             $validatedData = $request->validate([
                 'name' => 'required|string',

@@ -44,10 +44,12 @@ class RoomManagerController extends Controller
             $roomManager->email = $validatedData['email'];
 
             $roomManager->save();
+
+            return response()->json(['message' => 'Responsable de salle enregistré avec succès'], 201);
         }
         catch (\Throwable $e)
         {
-            throw $e;
+            return response()->json(['message' => 'Erreur lors de l\'enregistrement du responsable de salle'], 404);
         }
     }
 }

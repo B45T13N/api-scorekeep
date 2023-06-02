@@ -44,10 +44,12 @@ class SecretaryController extends Controller
             $secretary->email = $validatedData['email'];
 
             $secretary->save();
+
+            return response()->json(['message' => 'Secrétaire enregistré avec succès'], 201);
         }
         catch (\Throwable $e)
         {
-            throw $e;
+            return response()->json(['message' => 'Erreur lors de l\'enregistrement du secrétaire'], 404);
         }
     }
 }

@@ -44,10 +44,12 @@ class TimekeeperController extends Controller
             $timekeeper->email = $validatedData['email'];
 
             $timekeeper->save();
+
+            return response()->json(['message' => 'Chronométreur enregistré avec succès'], 201);
         }
         catch (\Throwable $e)
         {
-            throw $e;
+            return response()->json(['message' => 'Erreur lors de l\'enregistrement du chronométreur'], 404);
         }
     }
 }
