@@ -13,20 +13,13 @@ class VisitorTeamController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(string $visitorTeamName)
+    public function store(string $visitorTeamName, int $gameId)
     {
-        try
-        {
-            $visitorTeam = new VisitorTeam();
-            $visitorTeam->name = $visitorTeamName;
+        $visitorTeam = new VisitorTeam();
+        $visitorTeam->name = $visitorTeamName;
+        $visitorTeam->gameId = $gameId;
 
-            $visitorTeam->save();
-        }
-        catch (\Throwable $e)
-        {
-            throw $e;
-        }
-
+        $visitorTeam->save();
     }
 
     /**

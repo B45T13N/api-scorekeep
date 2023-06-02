@@ -43,9 +43,9 @@ class GameController extends Controller
 
         $this->checkForeignKeys($request, $game);
 
-        $visitorTeamController->store($request['visitorTeam']);
-
         $game->save();
+
+        $visitorTeamController->store($request['visitorTeam'], $game->id);
 
         return response()->json(['message' => 'Match enregistré avec succès'], 201);
     }
