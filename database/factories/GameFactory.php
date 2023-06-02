@@ -22,10 +22,6 @@ class GameFactory extends Factory
             'address' => fake("fr_FR")->address(),
             'category' => $categories[rand(0, count($categories)-1)],
             'gameDate' => fake("fr_FR")->dateTimeBetween('-15 weeks', '+15 weeks'),
-            'timekeeperId' => rand(1, 15),
-            'secretaryId' => rand(1, 15),
-            'roomManagerId' => rand(1, 15),
-            'visitorTeamId' => rand(1, 15),
         ];
     }
 }
