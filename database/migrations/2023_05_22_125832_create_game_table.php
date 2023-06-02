@@ -22,10 +22,10 @@ return new class extends Migration
             $table->bigInteger('roomManagerId')->unsigned();
             $table->bigInteger('visitorTeamId')->unsigned();
 
-            $table->foreign('timekeeperId')->references('id')->on('timekeepers');
-            $table->foreign('secretaryId')->references('id')->on('secretaries');
-            $table->foreign('roomManagerId')->references('id')->on('room_managers');
-            $table->foreign('visitorTeamId')->references('id')->on('visitor_teams');
+            $table->foreign('timekeeperId')->references('id')->on('timekeepers')->onDelete('cascade');
+            $table->foreign('secretaryId')->references('id')->on('secretaries')->onDelete('cascade');
+            $table->foreign('roomManagerId')->references('id')->on('room_managers')->onDelete('cascade');
+            $table->foreign('visitorTeamId')->references('id')->on('visitor_teams')->onDelete('cascade');
 
             $table->timestamps();
         });
