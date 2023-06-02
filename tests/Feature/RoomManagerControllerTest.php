@@ -2,10 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\RoomManager;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Game;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
 use Tests\TestCase;
 
 class RoomManagerControllerTest extends TestCase
@@ -14,12 +12,16 @@ class RoomManagerControllerTest extends TestCase
 
     public function testStore()
     {
+        Game::factory()->create();
+
         $name = 'John Doe';
         $email = 'johndoe@example.com';
+        $gameId = 1;
 
         $response = $this->postJson('/api/room-managers/store', [
             'name' => $name,
             'email' => $email,
+            'gameId' => $gameId
         ]);
 
         $response->assertStatus(201)
@@ -28,6 +30,7 @@ class RoomManagerControllerTest extends TestCase
         $this->assertDatabaseHas('room_managers', [
             'name' => $name,
             'email' => $email,
+            'gameId' => $gameId
         ]);
     }
 

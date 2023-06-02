@@ -34,6 +34,7 @@ class RoomManagerController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
+            'gameId' => 'required|int'
         ]);
 
         try
@@ -42,6 +43,7 @@ class RoomManagerController extends Controller
 
             $roomManager->name = $validatedData['name'];
             $roomManager->email = $validatedData['email'];
+            $roomManager->gameId = $validatedData['gameId'];
 
             $roomManager->save();
 

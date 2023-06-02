@@ -15,6 +15,7 @@ class RoomManagerControllerExceptionTest extends TestCase
     {
         $name = 'John Doe';
         $email = 'johndoe@example.com';
+        $gameId = 1;
 
         // Forcer l'échec de l'enregistrement en utilisant une fausse méthode save
         $roomManagerMock = Mockery::mock(RoomManager::class)->makePartial();
@@ -26,6 +27,7 @@ class RoomManagerControllerExceptionTest extends TestCase
         $response = $this->postJson('/api/room-managers/store', [
             'name' => $name,
             'email' => $email,
+            'gameId' => $gameId
         ]);
 
         $response->assertStatus(404)
