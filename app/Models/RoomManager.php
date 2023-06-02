@@ -10,6 +10,8 @@ class RoomManager extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     /**
      * The attributes that are mass assignable.
      *
