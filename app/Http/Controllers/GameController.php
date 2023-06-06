@@ -57,7 +57,7 @@ class GameController extends Controller
     {
         try
         {
-            return new GameResource(Game::query()->findOrFail($gameId)->get());
+            return new GameResource(Game::query()->findOrFail($gameId)->first());
         }
         catch (ModelNotFoundException $e)
         {
@@ -75,7 +75,7 @@ class GameController extends Controller
     {
         try
         {
-            $game = Game::query()->findOrFail($gameId)->get();
+            $game = Game::query()->findOrFail($gameId)->first();
 
             $validatedData = $request->validate([
                 'timekeeperId' => 'nullable,id',
@@ -110,7 +110,7 @@ class GameController extends Controller
     public function destroy(int $gameId)
     {
         try {
-            $game = Game::findOrFail($gameId);
+            $game = Game::findOrFail($gameId)->first();
 
             $game->delete();
 
