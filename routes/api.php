@@ -23,22 +23,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('games', [GameController::class, 'index'])->name('games.index');
-Route::get('games/{gameId}', [GameController::class, 'show'])->name('games.show');
+Route::middleware('api.public_key')->group(function () {
 
-Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
+    Route::get('games', [GameController::class, 'index'])->name('games.index');
+    Route::get('games/{gameId}', [GameController::class, 'show'])->name('games.show');
 
-Route::post('games', [GameController::class, 'store'])->name('games.store');
+    Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
 
-Route::get('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'show'])->name('visitor_teams.show');
+    Route::post('games', [GameController::class, 'store'])->name('games.store');
 
-Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
+    Route::get('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'show'])->name('visitor_teams.show');
+
+    Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
 
 
-Route::post('room-managers/store', [RoomManagerController::class, 'store'])->name('room_managers.store');
+    Route::post('room-managers/store', [RoomManagerController::class, 'store'])->name('room_managers.store');
 
-Route::post('secretaries/store', [SecretaryController::class, 'store'])->name('secretaries.store');
+    Route::post('secretaries/store', [SecretaryController::class, 'store'])->name('secretaries.store');
 
-Route::post('timekeepers/store', [TimekeeperController::class, 'store'])->name('timekeepers.store');
+    Route::post('timekeepers/store', [TimekeeperController::class, 'store'])->name('timekeepers.store');
+});
 
 
