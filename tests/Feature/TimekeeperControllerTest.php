@@ -18,7 +18,11 @@ class TimekeeperControllerTest extends TestCase
         $email = 'johndoe@example.com';
         $gameId = 1;
 
-        $response = $this->postJson('/api/timekeepers/store', [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/timekeepers/store', [
             'name' => $name,
             'email' => $email,
             'gameId' => $gameId
@@ -37,7 +41,11 @@ class TimekeeperControllerTest extends TestCase
 
     public function testStoreWithInvalidData()
     {
-        $response = $this->postJson('/api/timekeepers/store', []);
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/timekeepers/store', []);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'email']);

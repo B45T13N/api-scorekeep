@@ -17,8 +17,12 @@ class RoomManagerControllerTest extends TestCase
         $name = 'John Doe';
         $email = 'johndoe@example.com';
         $gameId = 1;
-
-        $response = $this->postJson('/api/room-managers/store', [
+        $env = env('API_PUBLIC_KEY');
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/room-managers/store', [
             'name' => $name,
             'email' => $email,
             'gameId' => $gameId
@@ -37,7 +41,11 @@ class RoomManagerControllerTest extends TestCase
 
     public function testStoreWithInvalidData()
     {
-        $response = $this->postJson('/api/room-managers/store', []);
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/room-managers/store', []);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'email']);

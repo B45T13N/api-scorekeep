@@ -20,7 +20,11 @@ class SecretaryControllerTest extends TestCase
         $email = 'johndoe@example.com';
         $gameId = 1;
 
-        $response = $this->postJson('/api/secretaries/store', [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/secretaries/store', [
             'name' => $name,
             'email' => $email,
             'gameId' => $gameId
@@ -39,7 +43,11 @@ class SecretaryControllerTest extends TestCase
 
     public function testStoreWithInvalidData()
     {
-        $response = $this->postJson('/api/secretaries/store', []);
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/secretaries/store', []);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['name', 'email']);

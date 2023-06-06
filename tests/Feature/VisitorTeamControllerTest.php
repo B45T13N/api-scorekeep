@@ -18,7 +18,11 @@ class VisitorTeamControllerTest extends TestCase
 
         $visitorTeam = VisitorTeam::factory()->create(['gameId' => 1]);
 
-        $response = $this->getJson('/api/visitor-teams/'.$visitorTeam->id);
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        getJson('/api/visitor-teams/'.$visitorTeam->id);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -36,7 +40,11 @@ class VisitorTeamControllerTest extends TestCase
 
         $updatedName = 'Updated Team';
 
-        $response = $this->putJson('/api/visitor-teams/'.$visitorTeam->id, [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        putJson('/api/visitor-teams/'.$visitorTeam->id, [
             'name' => $updatedName,
         ]);
 
@@ -55,7 +63,11 @@ class VisitorTeamControllerTest extends TestCase
 
         $visitorTeam = VisitorTeam::factory()->create(['gameId' => 1]);
 
-        $response = $this->putJson('/api/visitor-teams/'.$visitorTeam->id, []);
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        putJson('/api/visitor-teams/'.$visitorTeam->id, []);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['name']);
@@ -65,7 +77,11 @@ class VisitorTeamControllerTest extends TestCase
     {
         $nonExistingTeamId = 999;
 
-        $response = $this->getJson('/api/visitor-teams/'.$nonExistingTeamId);
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        getJson('/api/visitor-teams/'.$nonExistingTeamId);
 
         $response->assertStatus(404)
             ->assertJson(['message' => 'Equipe visiteur non trouvée']);
@@ -75,7 +91,11 @@ class VisitorTeamControllerTest extends TestCase
     {
         $nonExistingTeamId = 999;
 
-        $response = $this->putJson('/api/visitor-teams/'.$nonExistingTeamId, [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        putJson('/api/visitor-teams/'.$nonExistingTeamId, [
             'name' => 'Updated Team',
         ]);
 

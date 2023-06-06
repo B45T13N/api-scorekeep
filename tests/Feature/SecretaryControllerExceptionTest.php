@@ -24,7 +24,11 @@ class SecretaryControllerExceptionTest extends TestCase
         });
         $this->app->instance(Secretary::class, $roomManagerMock);
 
-        $response = $this->postJson('/api/secretaries/store', [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/secretaries/store', [
             'name' => $name,
             'email' => $email,
             'gameId' => $gameId

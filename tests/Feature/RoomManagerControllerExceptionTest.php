@@ -24,7 +24,11 @@ class RoomManagerControllerExceptionTest extends TestCase
         });
         $this->app->instance(RoomManager::class, $roomManagerMock);
 
-        $response = $this->postJson('/api/room-managers/store', [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/room-managers/store', [
             'name' => $name,
             'email' => $email,
             'gameId' => $gameId

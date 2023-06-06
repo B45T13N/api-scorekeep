@@ -24,7 +24,11 @@ class TimekeeperControllerExceptionTest extends TestCase
         });
         $this->app->instance(Timekeeper::class, $roomManagerMock);
 
-        $response = $this->postJson('/api/timekeepers/store', [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        postJson('/api/timekeepers/store', [
             'name' => $name,
             'email' => $email,
             'gameId' => $gameId
