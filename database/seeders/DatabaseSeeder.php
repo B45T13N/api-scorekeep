@@ -23,11 +23,11 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        Game::factory(10)->create();
 
         RoomManager::factory(15)->create();
         Timekeeper::factory(15)->create();
         Secretary::factory(15)->create();
         VisitorTeam::factory(15)->create();
-        Game::factory(10)->create();
     }
 }
