@@ -18,15 +18,33 @@ class GameResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'address' => $this->address,
             'category' => $this->category,
             'gameDate' => $this->gameDate,
-            'timekeeper' => new TimekeeperResource(Timekeeper::query()->where('id', $this->timekeeperId)->firstOrFail()),
-            'secretary' => new SecretaryResource(Secretary::query()->where('id', $this->secretaryId)->firstOrFail()),
-            'room_manager' => new RoomManagerResource(RoomManager::query()->where('id', $this->roomManagerId)->firstOrFail()),
-            'visitorTeam' => new VisitorTeamResource(VisitorTeam::query()->where('id', $this->visitorTeamId)->firstOrFail()),
+            'timekeeper' => null,
+            'secretary' => null,
+            'room_manager' => null,
+            'visitorTeam' => null,
         ];
+
+        if ($this->timekeeperId && Timekeeper::query()->where('id', $this->timekeeperId)->exists()) {
+            $data['timekeeper'] = new TimekeeperResource(Timekeeper::query()->find($this->timekeeperId));
+        }
+
+        if ($this->secretaryId && Secretary::query()->where('id', $this->secretaryId)->exists()) {
+            $data['secretary'] = new SecretaryResource(Secretary::query()->find($this->secretaryId));
+        }
+
+        if ($this->roomManagerId && RoomManager::query()->where('id', $this->roomManagerId)->exists()) {
+            $data['room_manager'] = new RoomManagerResource(RoomManager::query()->find($this->roomManagerId));
+        }
+
+        if ($this->visitorTeamId && VisitorTeam::query()->where('id', $this->visitorTeamId)->exists()) {
+            $data['visitorTeam'] = new VisitorTeamResource(VisitorTeam::query()->find($this->visitorTeamId));
+        }
+
+        return $data;
     }
 }
