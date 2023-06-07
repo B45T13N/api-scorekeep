@@ -17,7 +17,8 @@ class LocalTeamFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake("fr_FR")->city(),
+            'name' => "Avon Handball",
+            'logo' => "http://avonhandball.fr/wp-content/uploads/2020/08/avon-handball-1.png",
         ];
     }
 }
