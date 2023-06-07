@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\LocalTeam;
 use App\Models\RoomManager;
 use App\Models\Secretary;
 use App\Models\Timekeeper;
@@ -43,6 +44,10 @@ class GameResource extends JsonResource
 
         if ($this->visitorTeamId && VisitorTeam::query()->where('id', $this->visitorTeamId)->exists()) {
             $data['visitorTeam'] = new VisitorTeamResource(VisitorTeam::query()->find($this->visitorTeamId));
+        }
+
+        if ($this->localTeamId && LocalTeam::query()->where('id', $this->localTeamId)->exists()) {
+            $data['localTeam'] = new LocalTeamResource(LocalTeam::query()->find($this->localTeamId));
         }
 
         return $data;
