@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
+use App\Models\VisitorTeam;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,7 +15,8 @@ class SecretaryControllerTest extends TestCase
 
     public function testStore()
     {
-        Game::factory()->create();
+        VisitorTeam::factory()->create();
+        Game::factory()->create(["visitorTeamId" => 1]);
 
         $name = 'John Doe';
         $email = 'johndoe@example.com';

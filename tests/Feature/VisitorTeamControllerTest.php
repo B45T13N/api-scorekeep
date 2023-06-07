@@ -14,9 +14,7 @@ class VisitorTeamControllerTest extends TestCase
 
     public function testShow()
     {
-        Game::factory()->create();
-
-        $visitorTeam = VisitorTeam::factory()->create(['gameId' => 1]);
+        $visitorTeam = VisitorTeam::factory()->create();
 
         $response = $this->
         withHeaders([
@@ -34,9 +32,7 @@ class VisitorTeamControllerTest extends TestCase
 
     public function testUpdate()
     {
-        Game::factory()->create();
-
-        $visitorTeam = VisitorTeam::factory()->create(['gameId' => 1]);
+        $visitorTeam = VisitorTeam::factory()->create();
 
         $updatedName = 'Updated Team';
 
@@ -59,9 +55,7 @@ class VisitorTeamControllerTest extends TestCase
 
     public function testUpdateWithInvalidData()
     {
-        Game::factory()->create();
-
-        $visitorTeam = VisitorTeam::factory()->create(['gameId' => 1]);
+        $visitorTeam = VisitorTeam::factory()->create();
 
         $response = $this->
         withHeaders([

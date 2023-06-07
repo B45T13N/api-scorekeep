@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
+use App\Models\VisitorTeam;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,7 +13,8 @@ class TimekeeperControllerTest extends TestCase
 
     public function testStore()
     {
-        Game::factory()->create();
+        VisitorTeam::factory()->create();
+        Game::factory()->create(["visitorTeamId" => 1]);
 
         $name = 'John Doe';
         $email = 'johndoe@example.com';
