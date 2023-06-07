@@ -11,13 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('visitor_teams', function (Blueprint $table)
-        {
-            $table->bigInteger('gameId')->unsigned();
-
-            $table->foreign('gameId')->references('id')->on('games');
-        });
-
         Schema::table('timekeepers', function (Blueprint $table)
         {
             $table->bigInteger('gameId')->unsigned();
@@ -41,11 +34,13 @@ return new class extends Migration
 
         Schema::table('games', function (Blueprint $table)
         {
+            $table->bigInteger('visitorTeamId')->unsigned();
             $table->bigInteger('timekeeperId')->unsigned()->nullable();
+            $table->bigInteger('localTeamId')->unsigned()->nullable();
             $table->bigInteger('secretaryId')->unsigned()->nullable();
             $table->bigInteger('roomManagerId')->unsigned()->nullable();
-            $table->bigInteger('visitorTeamId')->unsigned()->nullable();
 
+            $table->foreign('localTeamId')->references('id')->on('local_teams');
             $table->foreign('timekeeperId')->references('id')->on('timekeepers')->onDelete('cascade');
             $table->foreign('secretaryId')->references('id')->on('secretaries')->onDelete('cascade');
             $table->foreign('roomManagerId')->references('id')->on('room_managers')->onDelete('cascade');
