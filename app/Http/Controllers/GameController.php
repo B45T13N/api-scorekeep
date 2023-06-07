@@ -26,7 +26,7 @@ class GameController extends Controller
         $validatedData = $request->validate([
             'address' => 'required|string',
             'category' => 'required|string',
-            'visitorTeam' => 'required|string',
+            'visitorTeamName' => 'required|string',
             'gameDate' =>
                 [
                     'required',
@@ -43,9 +43,12 @@ class GameController extends Controller
 
         $this->checkForeignKeys($request, $game);
 
+        $visitorTeam = $visitorTeamController->store($request['visitorTeamName']);
+
+        $game->visitorTeamId = $visitorTeam->id;
+
         $game->save();
 
-        $visitorTeamController->store($request['visitorTeam'], $game->id);
 
         return response()->json(['message' => 'Match enregistré avec succès'], 201);
     }
@@ -78,10 +81,15 @@ class GameController extends Controller
             $game = Game::query()->findOrFail($gameId)->first();
 
             $validatedData = $request->validate([
-                'timekeeperId' => 'nullable,id',
-                'secretaryId' => 'nullable,id',
-                'roomManagerId' => 'nullable,id',
-                'gameDate' => 'nullable|date',
+                'timekeeperId' => 'nullable|exists:timekeepers,id',
+                'secretaryId' => 'nullable|exists:secretaries,id',
+                'roomManagerId' => 'nullable|exists:room_managers,id',
+                'gameDate' =>
+                    [
+                        'required',
+                        'date',
+                        'after:'.Carbon::now('Europe/Paris')->toDateTimeString(),
+                    ],
             ]);
 
             $this->checkForeignKeys($request, $game);

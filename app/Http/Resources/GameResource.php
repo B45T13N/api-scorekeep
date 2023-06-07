@@ -25,7 +25,7 @@ class GameResource extends JsonResource
             'gameDate' => $this->gameDate,
             'timekeeper' => null,
             'secretary' => null,
-            'room_manager' => null,
+            'roomManager' => null,
             'visitorTeam' => null,
         ];
 
@@ -38,7 +38,7 @@ class GameResource extends JsonResource
         }
 
         if ($this->roomManagerId && RoomManager::query()->where('id', $this->roomManagerId)->exists()) {
-            $data['room_manager'] = new RoomManagerResource(RoomManager::query()->find($this->roomManagerId));
+            $data['roomManager'] = new RoomManagerResource(RoomManager::query()->find($this->roomManagerId));
         }
 
         if ($this->visitorTeamId && VisitorTeam::query()->where('id', $this->visitorTeamId)->exists()) {
