@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\LocalTeamController;
 use App\Http\Controllers\RoomManagerController;
 use App\Http\Controllers\SecretaryController;
 use App\Http\Controllers\TimekeeperController;
@@ -35,6 +36,12 @@ Route::middleware('api.public_key')->group(function () {
     Route::get('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'show'])->name('visitor_teams.show');
 
     Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
+
+    Route::post('/local-teams/store', [LocalTeamController::class, 'store'])->name('local_teams.store');
+
+    Route::get('/local-teams/{localTeamId}', [LocalTeamController::class, 'show'])->name('local_teams.show');
+
+    Route::put('/local-teams/{localTeamId}', [LocalTeamController::class, 'update'])->name('local_teams.update');
 
 
     Route::post('room-managers/store', [RoomManagerController::class, 'store'])->name('room_managers.store');
