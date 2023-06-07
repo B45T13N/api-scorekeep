@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Game extends Model
@@ -19,10 +20,11 @@ class Game extends Model
      */
     protected $fillable = [
         'address',
-        'visitorTeam',
-        'timekeeper',
-        'secretary',
-        'roomManager',
+        'visitorTeamId',
+        'timekeeperId',
+        'secretaryId',
+        'roomManagerId',
+        'localTeamId',
     ];
 
     /**
@@ -33,6 +35,14 @@ class Game extends Model
     protected $casts = [
         'gameDate' => 'datetime',
     ];
+
+    /**
+     * Get the scorekeeper associated with the game.
+     */
+    public function localTeam(): BelongsTo
+    {
+        return $this->belongsTo(Timekeeper::class);
+    }
 
     /**
      * Get the scorekeeper associated with the game.

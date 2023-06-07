@@ -19,7 +19,6 @@ class VisitorTeam extends Model
      */
     protected $fillable = [
         'name',
-        'category',
     ];
 
     /**
