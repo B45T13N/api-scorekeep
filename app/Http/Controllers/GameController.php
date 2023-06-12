@@ -113,6 +113,31 @@ class GameController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     */
+    public function addPerson(string $fieldName, int $fieldId, int $gameId)
+    {
+        try
+        {
+            $game = Game::query()->findOrFail($gameId)->first();
+
+            $game = $this->checkFieldUpdated($fieldName, $fieldId, $game);
+
+            $game->save();
+
+            // Réponse de succès
+            return response()->json(['message' => 'Match mis à jour avec succès'], 200);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return response()->json([
+                'message' => 'Match non trouvé',
+                'exception' => $e->getMessage()
+            ], 404);
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(int $gameId)
@@ -147,6 +172,24 @@ class GameController extends Controller
         if ($request->has('roomManagerId'))
         {
             $game->roomManagerId = $request->input('roomManagerId');
+        }
+
+        return $game;
+    }
+
+    private function checkFieldUpdated(string $fieldName, int $fieldId, Game $game) : Game
+    {
+        switch ($fieldName)
+        {
+            case 'timekeeper':
+                $game->timekeeperId = $fieldId;
+                break;
+            case 'roomManager':
+                $game->roomManagerId = $fieldId;
+                break;
+            case 'secretary':
+                $game->secretaryId = $fieldId;
+                break;
         }
 
         return $game;
