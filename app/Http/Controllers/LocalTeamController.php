@@ -10,6 +10,14 @@ use Illuminate\Http\Request;
 class LocalTeamController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return LocalTeamResource::collection(LocalTeam::all());
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
