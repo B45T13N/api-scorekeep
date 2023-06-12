@@ -29,7 +29,7 @@ class RoomManagerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, GameController $gameController)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
@@ -47,7 +47,12 @@ class RoomManagerController extends Controller
 
             $roomManager->save();
 
-            return response()->json(['message' => 'Responsable de salle enregistré avec succès'], 201);
+            $gameController->addPerson("roomManager", $roomManager->id, $validatedData['gameId']);
+
+            return response()->json([
+                'message' => 'Responsable de salle enregistré avec succès',
+                'data' => $roomManager
+            ], 201);
         }
         catch (\Throwable $e)
         {

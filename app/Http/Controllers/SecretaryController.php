@@ -29,7 +29,7 @@ class SecretaryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, GameController $gameController)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
@@ -47,7 +47,12 @@ class SecretaryController extends Controller
 
             $secretary->save();
 
-            return response()->json(['message' => 'Secrétaire enregistré avec succès'], 201);
+            $gameController->addPerson("secretary", $secretary->id, $validatedData['gameId']);
+
+            return response()->json([
+                'message' => 'Secrétaire enregistré avec succès',
+                'data' => $secretary
+            ], 201);
         }
         catch (\Throwable $e)
         {
