@@ -37,6 +37,8 @@ Route::middleware('api.public_key')->group(function () {
 
     Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
 
+    Route::get('/local-teams', [LocalTeamController::class, 'index'])->name('local_teams.index');
+
     Route::post('/local-teams/store', [LocalTeamController::class, 'store'])->name('local_teams.store');
 
     Route::get('/local-teams/{localTeamId}', [LocalTeamController::class, 'show'])->name('local_teams.show');
