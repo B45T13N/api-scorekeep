@@ -119,7 +119,7 @@ class GameController extends Controller
     {
         try
         {
-            $game = Game::query()->where("id", $gameId)->get();
+            $game = Game::query()->where("id", $gameId)->first();
 
             $game = $this->checkFieldUpdated($fieldName, $fieldId, $game);
 
