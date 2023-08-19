@@ -7,6 +7,8 @@ use App\Models\Game;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class GameController extends Controller
 {
@@ -15,6 +17,22 @@ class GameController extends Controller
      */
     public function index(Request $request)
     {
+        $rules = [
+            'local_team_id' => 'int',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails())
+        {
+            $response = [
+                'status' => '0',
+                'error' => $validator->errors(),
+            ];
+
+            return response()->json([ 'validator_failed' => $response], 401);
+        }
+
         $localTeamId = $request->get('local_team_id');
 
         if($localTeamId)
