@@ -13,9 +13,18 @@ class GameController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return GameResource::collection(Game::all());
+        $localTeamId = $request->get('local_team_id');
+
+        if($localTeamId)
+        {
+            return GameResource::collection(Game::query()->where('localTeamId', $localTeamId)->get());
+        }
+        else
+        {
+            return GameResource::collection(Game::all());
+        }
     }
 
     /**
