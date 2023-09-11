@@ -54,6 +54,7 @@ class GameController extends Controller
             'address' => 'required|string',
             'category' => 'required|string',
             'visitorTeamName' => 'required|string',
+            'isHomeMatch' => 'required|boolean',
             'gameDate' =>
                 [
                     'required',
@@ -67,6 +68,7 @@ class GameController extends Controller
         $game->address = $validatedData['address'];
         $game->category = $validatedData['category'];
         $game->gameDate = $validatedData['gameDate'];
+        $game->isHomeMatch = $validatedData['isHomeMatch'];
 
         $this->checkForeignKeys($request, $game);
 
@@ -111,6 +113,7 @@ class GameController extends Controller
                 'timekeeperId' => 'nullable|exists:timekeepers,id',
                 'secretaryId' => 'nullable|exists:secretaries,id',
                 'roomManagerId' => 'nullable|exists:room_managers,id',
+                'isHomeMatch' => 'nullable|boolean',
                 'gameDate' =>
                     [
                         'required',
@@ -121,8 +124,12 @@ class GameController extends Controller
 
             $this->checkForeignKeys($request, $game);
 
-            if ($request->has('gameDate')) {
+            if ($request->has('gameDate'))
+            {
                 $game->gameDate = $validatedData['gameDate'];
+            } else if ($request->has('isHomeMatch'))
+            {
+                $game->isHomeMatch = $validatedData['isHomeMatch'];
             }
 
             $game->save();
