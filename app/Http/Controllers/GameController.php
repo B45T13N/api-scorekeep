@@ -18,31 +18,78 @@ class GameController extends Controller
     public function index(Request $request)
     {
         $rules = [
-            'local_team_id' => 'int',
+            'local_team_id' => 'int|required',
+            'start_date' => 'date|required|after_or_equal:today',
+            'end_date' => 'date|required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             $response = [
                 'status' => '0',
                 'error' => $validator->errors(),
             ];
 
-            return response()->json([ 'validator_failed' => $response], 401);
+            return response()->json(['validator_failed' => $response], 401);
+        }
+        $localTeamId = $request->get('local_team_id');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $perPage = $request->input('per_page', 10);
+
+        $query = Game::query();
+
+        if ($localTeamId) {
+            $query->where('localTeamId', $localTeamId);
         }
 
+        if ($startDate && $endDate) {
+            $query->whereBetween('gameDate', [$startDate, $endDate]);
+        }
+
+        $games = $query->paginate($perPage);
+
+        return GameResource::collection($games);
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function weekGames(Request $request)
+    {
+        $rules = [
+            'local_team_id' => 'int|required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            $response = [
+                'status' => '0',
+                'error' => $validator->errors(),
+            ];
+
+            return response()->json(['validator_failed' => $response], 401);
+        }
         $localTeamId = $request->get('local_team_id');
 
-        if($localTeamId)
-        {
-            return GameResource::collection(Game::query()->where('localTeamId', $localTeamId)->get());
+        $perPage = $request->input('per_page', 10);
+
+        $query = Game::query();
+
+        if ($localTeamId) {
+            $query->where('localTeamId', $localTeamId);
         }
-        else
-        {
-            return GameResource::collection(Game::all());
-        }
+        $startDate = Carbon::now("Europe/Paris")->format('Y-m-d');
+        $endDate = Carbon::now("Europe/Paris")->addWeek()->format('Y-m-d');
+
+        $query->whereBetween('gameDate', [$startDate, $endDate]);
+
+        $games = $query->paginate($perPage);
+
+        return GameResource::collection($games);
     }
 
     /**
