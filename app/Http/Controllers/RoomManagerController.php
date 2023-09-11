@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TokenMismatch;
+use App\Models\Game;
+use App\Models\LocalTeam;
 use App\Models\RoomManager;
 use Illuminate\Http\Request;
 
@@ -33,21 +36,28 @@ class RoomManagerController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email',
-            'gameId' => 'required|int'
+//            'email' => 'required|email',
+            'gameId' => 'required|int',
+            'token' => 'required|int'
         ]);
 
         try
         {
+            $game = Game::findOrFail($validatedData['gameId']);
+            $token = LocalTeam::findOrFail($game->localTeamId)->token;
+
+            if ($validatedData['token'] != $token)
+            {
+                throw new TokenMismatch();
+            }
+
             $roomManager = new RoomManager();
 
             $roomManager->name = $validatedData['name'];
-            $roomManager->email = $validatedData['email'];
+//            $roomManager->email = $validatedData['email'];
             $roomManager->gameId = $validatedData['gameId'];
 
             $roomManager->save();
-
-            $gameController->addPerson("roomManager", $roomManager->id, $validatedData['gameId']);
 
             return response()->json([
                 'message' => 'Responsable de salle enregistré avec succès',
