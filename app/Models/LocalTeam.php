@@ -20,6 +20,8 @@ class LocalTeam extends Model
      */
     protected $fillable = [
         'name',
+        'logo',
+        'token',
     ];
 
     /**
