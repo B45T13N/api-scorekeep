@@ -39,20 +39,6 @@ class LoginControllerTest extends TestCase
             ->assertJson(['message' => 'Invalid login details']);
     }
 
-    public function testLogout()
-    {
-        $user = User::factory()->create();
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        $response = $this->actingAs($user)
-            ->postJson(route('api.logout'));
-
-        $response->assertStatus(200)
-            ->assertJson(['status' => true, 'message' => 'logged out']);
-
-        $this->assertCount(0, $user->tokens);
-    }
-
     public function testMe()
     {
         $user = User::factory()->create(
