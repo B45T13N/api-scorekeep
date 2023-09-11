@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TokenMismatch;
+use App\Models\Game;
+use App\Models\LocalTeam;
 use App\Models\Secretary;
 use Illuminate\Http\Request;
 
@@ -33,21 +36,28 @@ class SecretaryController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email',
-            'gameId' => 'required|int'
+//            'email' => 'required|email',
+            'gameId' => 'required|int',
+            'token' => 'required|int'
         ]);
 
         try
         {
+            $game = Game::findOrFail($validatedData['gameId']);
+            $token = LocalTeam::findOrFail($game->localTeamId)->token;
+
+            if ($validatedData['token'] != $token)
+            {
+                throw new TokenMismatch();
+            }
+
             $secretary = new Secretary();
 
             $secretary->name = $validatedData['name'];
-            $secretary->email = $validatedData['email'];
+//            $secretary->email = $validatedData['email'];
             $secretary->gameId = $validatedData['gameId'];
 
             $secretary->save();
-
-            $gameController->addPerson("secretary", $secretary->id, $validatedData['gameId']);
 
             return response()->json([
                 'message' => 'Secrétaire enregistré avec succès',
