@@ -4,6 +4,60 @@
 
 This API enables interaction with various resources using HTTP methods such as GET, POST, PUT, and DELETE. It is built on top of the Laravel 10 framework, providing a robust and efficient means of managing your application's data.
 
+## Prerequisites
+
+Before starting to work on a Laravel 10 project with PHP 8.1, make sure you have the following components installed on your system:
+
+1. **PHP 8.1**: Ensure that PHP 8.1 is installed on your system. You can verify this by running the following command in your terminal:
+
+   ```bash
+   php -v
+   ```
+
+   If PHP 8.1 is not installed, you can download it from the [official PHP website](https://www.php.net/downloads.php) or use a package manager like [Composer](https://getcomposer.org/) to install it.
+
+2. **Composer**: Composer is an essential dependency manager for Laravel projects. Make sure you have it installed by following the instructions at [getcomposer.org](https://getcomposer.org/download/).
+
+3. **Git**: Git is used for version control of your code. If you haven't already, install Git by following the instructions at [git-scm.com](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+## Cloning the Project with Git
+
+Once you've confirmed that all the prerequisites are installed, you can retrieve the project by following these steps:
+
+1. Open your terminal and navigate to the directory where you want to clone the repository.
+
+2. Use Composer to create a new Laravel project by running the following command:
+
+   ```bash
+   git clone https://github.com/B45T13N/api-scorekeep.git project-name
+   ```
+
+   Replace `project-name` with the desired name for your project.
+
+3. After the project creation is complete, navigate to the project directory using the `cd` command:
+
+   ```bash
+   cd project-name
+   ```
+
+4. Install project dependencies with Composer:
+
+   ```bash
+   php composer install
+   ```
+
+5. Run database migrations:
+
+   ```bash
+   php artisan migrate
+   ```
+
+6. If you need test data, you can modify the factory files and use the following command:
+
+   ```bash
+   php artisan db:seed
+   ```
+   
 ## Base URL
 
 The base URL for all API requests is: `https://api.scoreekeep.org/api`
