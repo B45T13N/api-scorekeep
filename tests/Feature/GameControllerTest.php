@@ -23,21 +23,48 @@ class GameControllerTest extends TestCase
      */
     public function testIndex()
     {
-        $this->withoutExceptionHandling();
-
         VisitorTeam::factory()->create();
 
-        Game::factory(['visitorTeamId' => 1])->count(3)->create();
-
+        Game::factory(['visitorTeamId' => 1, 'gameDate' => Carbon::tomorrow("Europe/Paris")->toDateTimeString()])->count(3)->create();
+        $today = Carbon::now("Europe/Paris")->format("Y-m-d");
+        $parameters = [
+            'local_team_id' => 1,
+            'start_date' => $today,
+            'end_date' => Carbon::now()->addWeek()->format("Y-m-d"),
+        ];
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
-        ])->
-        getJson(route('games.index'));
+        ])
+            ->getJson(route('games.index') . '?' . http_build_query($parameters));
 
         $response->assertOk();
         $response->assertJsonCount(3, 'data');
     }
+
+    /**
+     * Test weekGames method.
+     *
+     * @return void
+     */
+    public function testWeekGames()
+    {
+        VisitorTeam::factory()->create();
+
+        Game::factory(['visitorTeamId' => 1, 'gameDate' => Carbon::tomorrow("Europe/Paris")->toDateTimeString()])->count(3)->create();
+        $parameters = [
+            'local_team_id' => 1,
+        ];
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])
+            ->getJson(route('games.weekGames') . '?' . http_build_query($parameters));
+
+        $response->assertOk();
+        $response->assertJsonCount(3, 'data');
+    }
+
 
     /**
      * Test store method.
@@ -46,8 +73,6 @@ class GameControllerTest extends TestCase
      */
     public function testStore()
     {
-        $this->withoutExceptionHandling();
-
         $visitorTeamName = $this->faker->name;
         $address = $this->faker->address;
         $category = $this->faker->word;
