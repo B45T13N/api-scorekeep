@@ -24,6 +24,7 @@ class GameFactory extends Factory
             'category' => $categories[rand(0, count($categories)-1)],
             'gameDate' => fake("fr_FR")->dateTimeBetween('-15 weeks', '+15 weeks'),
             'visitorTeamId' => rand(1, 15),
+            'isHomeMatch' => fake()->boolean()
         ];
     }
 }

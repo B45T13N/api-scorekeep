@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
+use App\Models\LocalTeam;
 use App\Models\VisitorTeam;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,10 +15,11 @@ class TimekeeperControllerTest extends TestCase
     public function testStore()
     {
         VisitorTeam::factory()->create();
+        LocalTeam::factory()->create(['token'=>1234]);
         Game::factory()->create(["visitorTeamId" => 1]);
 
         $name = 'John Doe';
-        $email = 'johndoe@example.com';
+        $token = 1234;
         $gameId = 1;
 
         $response = $this->
@@ -26,7 +28,7 @@ class TimekeeperControllerTest extends TestCase
         ])->
         postJson('/api/timekeepers/store', [
             'name' => $name,
-            'email' => $email,
+            'token' => $token,
             'gameId' => $gameId
         ]);
 
@@ -35,7 +37,6 @@ class TimekeeperControllerTest extends TestCase
 
         $this->assertDatabaseHas('timekeepers', [
             'name' => $name,
-            'email' => $email,
             'gameId' => $gameId
         ]);
     }
@@ -50,6 +51,6 @@ class TimekeeperControllerTest extends TestCase
         postJson('/api/timekeepers/store', []);
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['name', 'email']);
+            ->assertJsonValidationErrors(['name', 'token']);
     }
 }

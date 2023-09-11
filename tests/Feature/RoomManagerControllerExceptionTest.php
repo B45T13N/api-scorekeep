@@ -14,7 +14,7 @@ class RoomManagerControllerExceptionTest extends TestCase
     public function testStoreWithException()
     {
         $name = 'John Doe';
-        $email = 'johndoe@example.com';
+        $token = 1234;
         $gameId = 1;
 
         // Forcer l'échec de l'enregistrement en utilisant une fausse méthode save
@@ -30,7 +30,7 @@ class RoomManagerControllerExceptionTest extends TestCase
         ])->
         postJson('/api/room-managers/store', [
             'name' => $name,
-            'email' => $email,
+            'token' => $token,
             'gameId' => $gameId
         ]);
 

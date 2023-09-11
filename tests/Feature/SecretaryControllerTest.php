@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
+use App\Models\LocalTeam;
 use App\Models\VisitorTeam;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,11 +16,12 @@ class SecretaryControllerTest extends TestCase
 
     public function testStore()
     {
+        LocalTeam::factory()->create(['token'=>1234]);
         VisitorTeam::factory()->create();
         Game::factory()->create(["visitorTeamId" => 1]);
 
         $name = 'John Doe';
-        $email = 'johndoe@example.com';
+        $token = 1234;
         $gameId = 1;
 
         $response = $this->
@@ -28,7 +30,7 @@ class SecretaryControllerTest extends TestCase
         ])->
         postJson('/api/secretaries/store', [
             'name' => $name,
-            'email' => $email,
+            'token' => $token,
             'gameId' => $gameId
         ]);
 
@@ -37,7 +39,6 @@ class SecretaryControllerTest extends TestCase
 
         $this->assertDatabaseHas('secretaries', [
             'name' => $name,
-            'email' => $email,
             'gameId' => $gameId
         ]);
     }
@@ -52,6 +53,6 @@ class SecretaryControllerTest extends TestCase
         postJson('/api/secretaries/store', []);
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['name', 'email']);
+            ->assertJsonValidationErrors(['name', 'token']);
     }
 }

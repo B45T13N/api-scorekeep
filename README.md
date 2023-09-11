@@ -1,87 +1,79 @@
-# API des applications web et mobile Scorekeep / API for Scorekee web/mobile app
+# API pour l'application Scorekeep Web et Mobile
 
-This API allows you to interact with various resources using the HTTP methods GET, POST, PUT, and DELETE. 
-It"s built on top of the Laravel 10 framework, providing a robust and efficient way to manage your application"s data.
+Cette API vous permet d'interagir avec différentes ressources en utilisant les méthodes HTTP telles que GET, POST, PUT et DELETE. Elle est construite sur le framework Laravel 10, offrant un moyen robuste et efficace de gérer les données de votre application.
 
-Cette API vous permet d"interagir avec différentes ressources en utilisant les méthodes HTTP GET, POST, PUT et DELETE. 
-Elle est construite sur le framework Laravel 10, offrant ainsi un moyen robuste et efficace de gérer les données de votre application.
+## URL de Base
 
-## Base URL / URL de base
+L'URL de
 
-The base URL for all API requests is: `https://api.scoreekeep.org/api`
-L"URL de base pour toutes les requêtes API est : `https://api.scoreekeep.org/api`
+base pour toutes les requêtes API est : `https://api.scoreekeep.org/api`
 
-## Authentication
+## Authentification
 
-This API uses token-based authentication to secure endpoints. 
-To authenticate a request, include the `Authorization` header with the value `Bearer {your_token}`. 
-You can obtain a token by making a `POST` request to the `/auth/login` endpoint.
+Cette API utilise l'authentification basée sur des jetons (tokens) pour sécuriser les points d'accès. Pour authentifier une requête, incluez l'en-tête `Authorization` avec la valeur `Bearer {votre_token}`. Vous pouvez obtenir un jeton en effectuant une requête `POST` vers le point d'accès `/auth/login`.
 
-There is also an API key required to allow user registration to the scoreekeep tables.
+De plus, une clé d'API est nécessaire pour permettre l'inscription des utilisateurs dans les tables Scorekeep.
 
-Cette API utilise l"authentification basée sur des jetons (tokens) pour sécuriser les points d"accès. 
-Pour authentifier une requête, incluez l"en-tête `Authorization` avec la valeur `Bearer {votre_token}`. 
-Vous pouvez obtenir un jeton en effectuant une requête `POST` vers le point d"accès `/user/login`.
+## Points d'Accès
 
-Il y a également une clé d"API nécessaire pour permettre l"enregistrement des utilisateurs aux tables de marques.
-
-## Endpoints 
-
-### Connect user / Connecter l"utilisateur
+### Connecter l'Utilisateur
 
 - **URL:** `/user/login`
-- **Method:** POST with email and password / avec email et mot de passe
-- **Response:**
+- **Méthode:** POST avec email et mot de passe
+- **Réponse :**
   ```json
   {
     "data": {
-      "sucess": true,
-      "token" : ...
+      "access_token": "...",
+      "token_type" : "Bearer"
     }
   }
   ```
 
-  
-
-### Logout user / Déconnecter l"utilisateur
+### Déconnecter l'Utilisateur
 
 - **URL:** `/user/logout`
-- **Method:** POST
-- **Response:**
+- **Méthode:** POST
+- **Réponse :**
   ```json
   {
     "data": {
-      "sucess": true,
+      "status": true,
+      "message" : "logged out"
     }
   }
   ```
 
-### Get user details / Récupérer les détails de l"utilisateur
+### Récupérer les Détails de l'Utilisateur
 
 - **URL:** `/user/me`
-- **Method:** GET
-- **Response:**
+- **Méthode:** GET
+- **Réponse :**
   ```json
   {
     "data": {
-      "id": 1,
-      "name": "John Doe",
-      "email": "johndoe@example.com",
-      "created_at": "2023-08-17T12:00:00Z",
-      "updated_at": "2023-08-17T12:00:00Z"
+      "status": true,
+      "user": {        
+        "id": 1,
+        "nom": "John Doe",
+        "email": "johndoe@example.com",
+        "created_at": "2023-08-17T12:00:00Z",
+        "updated_at": "2023-08-17T12:00:00Z"  
+      }
     }
   }
   ```
-### Get game details / Récupérer les détails du match
+
+### Récupérer les Détails du Match
 
 - **URL:** `/games/{gameId}`
-- **Method:** GET
-- **Response:**
+- **Méthode:** GET
+- **Réponse :**
   ```json
   {
     "data": {
       "id": 1,
-      "address" : "Adresse ",
+      "address" : "Address ",
       "category" : "Category",
       "gameDate" : "Datetime",
       "timekeeper" : null || Timekeeper,
@@ -92,11 +84,11 @@ Il y a également une clé d"API nécessaire pour permettre l"enregistrement des
   }
   ```
 
-### Update game information / Mettre à jour les informations du jeu
+### Mettre à Jour les Informations du Match
 
 - **URL:** `/games/{gameId}`
-- **Method:** PUT
-- **Request Body:**
+- **Méthode:** PUT
+- **Corps de la Requête :**
   ```json
   {
     "timekeeperId" : integer || null,
@@ -105,18 +97,18 @@ Il y a également une clé d"API nécessaire pour permettre l"enregistrement des
     "gameDate" : "datetime" > date.now(),
   }
   ```
-- **Response:**
+- **Réponse :**
   ```json
   {
     "message" : "Match mis à jour avec succès",
   }
   ```
 
-### Create a new game / Créer un nouveau jeu
+### Créer un Nouveau Match
 
 - **URL:** `/games`
-- **Method:** POST
-- **Request Body:**
+- **Méthode:** POST
+- **Corps de la Requête :**
   ```json
   {
     "address" : "string",
@@ -125,49 +117,49 @@ Il y a également une clé d"API nécessaire pour permettre l"enregistrement des
     "gameDate" : "datetime" > date.now()
   }
   ```
-- **Response:**
+- **Réponse :**
   ```json
   {
     "message": "Match enregistré avec succès",
   }
   ```
 
-### Get visitor team details / Récupérer les détails de l"équipe visiteuse
+### Récupérer les Détails de l'Équipe Visiteuse
 
 - **URL:** `/visitor-teams/{visitorTeamId}`
-- **Method:** GET
-- **Response:**
+- **Méthode:** GET
+- **Réponse :**
   ```json
   {
     "data": {
       "id": 1,
-      "name": "Visitor Team"
+      "name": "Équipe Visiteuse"
     }
   }
   ```
 
-### Update visitor team information / Mettre à jour les informations de l"équipe visiteuse
+### Mettre à Jour les Informations de l'Équipe Visiteuse
 
 - **URL:** `/visitor-teams/{visitorTeamId}`
-- **Method:** PUT
-- **Request Body:**
+- **Méthode:** PUT
+- **Corps de la Requête :**
   ```json
   {
-    "name": "Updated Visitor Team Name"
+    "nom": "Nom de l'Équipe Visiteuse Mis à Jour"
   }
   ```
-- **Response:**
+- **Réponse :**
   ```json
   {
-    "message": "Equipe visiteur mise à jour avec succès"
+    "message": "Équipe visiteur mise à jour avec succès"
   }
   ```
 
-### Get local teams / Récupérer les équipes locales
+### Récupérer les Équipes Locales
 
 - **URL:** `/local-teams`
-- **Method:** GET
-- **Response:**
+- **Méthode:** GET
+- **Réponse :**
   ```json
   {
     "data": [
@@ -175,113 +167,102 @@ Il y a également une clé d"API nécessaire pour permettre l"enregistrement des
         "id": 1,
         "name": "Local Team 1",
         "logo" : "Logo 1",
+        "token" : 111,
       },
       {
         "id": 2,
         "name": "Local Team 2",
         "logo" : "Logo 2",
+        "token" : 111,
       }
     ]
   }
   ```
 
-### Get local team details / Récupérer les détails de l"équipe locale
+### Récupérer les Détails de l'Équipe Locale
 
 - **URL:** `/local-teams/{localTeamId}`
-- **Method:** GET
-- **Response:**
+- **Méthode:** GET
+- **Réponse :**
   ```json
   {
     "data": {
       "id": 1,
-      "name": "Local Team 1",
+      "nom": "Équipe Locale 1",
       "logo" : "Logo 1",
+      "token" : 111,
     }
   }
   ```
 
-### Create a new room manager / Créer un nouveau responsable de salle
+### Créer un Nouveau Responsable de Salle
 
 - **URL:** `/room-managers/store`
-- **Method:** POST
-- **Request Body:**
+- **Méthode:** POST
+- **Corps de la Requête :**
   ```json
   {
-    "name" : "string",
-    "email" : "email",
-    "gameId" : "int"
+    "nom" : "chaîne",
+    "token" : 111,
+    "idMatch" : "int"
   }
   ```
-- **Response:**
+- **Réponse :**
   ```json
   {
     "message": "Responsable de salle enregistré avec succès",
   }
   ```
 
-### Create a new secretary / Créer un nouveau secrétaire
+### Créer un Nouveau Secrétaire
 
 - **URL:** `/secretaries/store`
-- **Method:** POST
-- **Request Body:**
+- **Méthode:** POST
+- **Corps de la Requête :**
   ```json
   {
-    "name" : "string",
-    "email" : "email",
-    "gameId" : "int"
+    "nom" : "chaîne",
+    "token" : 111,
+    "idMatch" : "int"
   }
   ```
-- **Response:**
+- **Réponse :**
   ```json
   {
     "message": "Secrétaire enregistré avec succès",
   }
   ```
 
-### Create a new timekeeper / Créer un
-
- nouveau chronométreur
+### Créer un Nouveau Chronométreur
 
 - **URL:** `/timekeepers/store`
-- **Method:** POST
-- **Request Body:**
+- **Méthode:** POST
+- **Corps de la Requête :**
   ```json
   {
-    "name" : "string",
-    "email" : "email",
-    "gameId" : "int"
+    "nom" : "chaîne",
+    "token" : 111,
+    "idMatch" : "int"
   }
   ```
-- **Response:**
+- **Réponse :**
   ```json
   {
-    "message": "Chronométreur enregistré avec succès",
-  }
+    "message": "Chronométreur enregistré avec succès
+
+",
+}
   ```
-  
 
-## Error Responses / Réponses d"erreur
+## Réponses d'Erreur
 
-If an error occurs while processing a request, the API will respond with an appropriate error message and HTTP status code. Common error status codes include:
+Si une erreur se produit lors du traitement d'une requête, l'API répondra avec un message d'erreur approprié et un code d'état HTTP correspondant. Les codes d'erreur courants comprennent :
 
-- **400 Bad Request:** The request was invalid or missing required parameters.
-- **401 Unauthorized:** Authentication failed or user does not have permission.
-- **404 Not Found:** The requested resource was not found.
-- **500 Internal Server Error:** An unexpected error occurred on the server.
-
-Si une erreur se produit lors du traitement d"une requête, l"API répondra avec un message d"erreur approprié et un code d"état HTTP correspondant. Les codes d"erreur courants comprennent :
-
-- **400 Requête incorrecte :** La requête était invalide ou des paramètres requis sont manquants.
-- **401 Non autorisé :** L"authentification a échoué ou l"utilisateur n"a pas les permissions nécessaires.
-- **404 Non trouvé :** La ressource demandée n"a pas été trouvée.
-- **500 Erreur interne du serveur :** Une erreur inattendue s"est produite sur le serveur.
+- **400 Requête Incorrecte :** La requête était invalide ou des paramètres requis sont manquants.
+- **401 Non Autorisé :** L'authentification a échoué ou l'utilisateur n'a pas les permissions nécessaires.
+- **404 Non Trouvé :** La ressource demandée n'a pas été trouvée.
+- **500 Erreur Interne du Serveur :** Une erreur inattendue s'est produite sur le serveur.
 
 ## Conclusion
 
-This concludes the documentation for the API Scorekeep. 
-You can now start building and integrating your applications with the provided endpoints. 
-If you have any questions or need further assistance, feel free to contact our support team at contact@scorekeep.org. Happy coding!
-
-Ceci conclut la documentation de l"API Scorekeep. 
-Vous pouvez désormais commencer à construire et à intégrer vos applications en utilisant les points d"accès fournis. 
-Si vous avez des questions ou avez besoin d"assistance, n"hésitez pas à contacter notre équipe de support à l"adresse contact@scorekeep.org. Bon développement !
+Ceci conclut la documentation pour l'API Scorekeep. Vous pouvez maintenant commencer à construire et à intégrer vos applications en utilisant les points d'accès fournis. Si vous avez des questions ou avez besoin d'assistance supplémentaire, n'hésitez pas à contacter notre équipe de support à l'adresse contact@scorekeep.org. Bon développement !

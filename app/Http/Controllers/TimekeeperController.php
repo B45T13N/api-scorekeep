@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TokenMismatch;
+use App\Models\Game;
+use App\Models\LocalTeam;
 use App\Models\Timekeeper;
 use Illuminate\Http\Request;
 
@@ -33,21 +36,28 @@ class TimekeeperController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email',
-            'gameId' => 'required|int'
+//            'email' => 'required|email',
+            'gameId' => 'required|int',
+            'token' => 'required|int'
         ]);
 
         try
         {
+            $game = Game::findOrFail($validatedData['gameId']);
+            $token = LocalTeam::findOrFail($game->localTeamId)->token;
+
+            if ($validatedData['token'] != $token)
+            {
+                throw new TokenMismatch();
+            }
+
             $timekeeper = new Timekeeper();
 
             $timekeeper->name = $validatedData['name'];
-            $timekeeper->email = $validatedData['email'];
+//            $timekeeper->email = $validatedData['email'];
             $timekeeper->gameId = $validatedData['gameId'];
 
             $timekeeper->save();
-
-            $gameController->addPerson("timekeeper", $timekeeper->id, $validatedData['gameId']);
 
             return response()->json([
                 'message' => 'Chronométreur enregistré avec succès',

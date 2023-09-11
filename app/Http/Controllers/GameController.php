@@ -7,15 +7,42 @@ use App\Models\Game;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return GameResource::collection(Game::all());
+        $rules = [
+            'local_team_id' => 'int',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails())
+        {
+            $response = [
+                'status' => '0',
+                'error' => $validator->errors(),
+            ];
+
+            return response()->json([ 'validator_failed' => $response], 401);
+        }
+
+        $localTeamId = $request->get('local_team_id');
+
+        if($localTeamId)
+        {
+            return GameResource::collection(Game::query()->where('localTeamId', $localTeamId)->get());
+        }
+        else
+        {
+            return GameResource::collection(Game::all());
+        }
     }
 
     /**
@@ -27,6 +54,7 @@ class GameController extends Controller
             'address' => 'required|string',
             'category' => 'required|string',
             'visitorTeamName' => 'required|string',
+            'isHomeMatch' => 'required|boolean',
             'gameDate' =>
                 [
                     'required',
@@ -40,6 +68,7 @@ class GameController extends Controller
         $game->address = $validatedData['address'];
         $game->category = $validatedData['category'];
         $game->gameDate = $validatedData['gameDate'];
+        $game->isHomeMatch = $validatedData['isHomeMatch'];
 
         $this->checkForeignKeys($request, $game);
 
@@ -84,6 +113,7 @@ class GameController extends Controller
                 'timekeeperId' => 'nullable|exists:timekeepers,id',
                 'secretaryId' => 'nullable|exists:secretaries,id',
                 'roomManagerId' => 'nullable|exists:room_managers,id',
+                'isHomeMatch' => 'nullable|boolean',
                 'gameDate' =>
                     [
                         'required',
@@ -94,8 +124,12 @@ class GameController extends Controller
 
             $this->checkForeignKeys($request, $game);
 
-            if ($request->has('gameDate')) {
+            if ($request->has('gameDate'))
+            {
                 $game->gameDate = $validatedData['gameDate'];
+            } else if ($request->has('isHomeMatch'))
+            {
+                $game->isHomeMatch = $validatedData['isHomeMatch'];
             }
 
             $game->save();

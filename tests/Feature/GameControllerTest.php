@@ -62,6 +62,7 @@ class GameControllerTest extends TestCase
             'category' => $category,
             'visitorTeamName' => $visitorTeamName,
             'gameDate' => $gameDate,
+            'isHomeMatch' => true,
         ]);
 
         $response->assertCreated();

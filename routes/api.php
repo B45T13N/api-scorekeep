@@ -20,10 +20,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('api.login');
+//Route::post('/register', [\App\Http\Controllers\Api\RegisterController::class, 'register']);
 
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('api.logout');
+    Route::post('/me', [App\Http\Controllers\LoginController::class, 'me'])->name('api.me');
+});
 Route::middleware('api.public_key')->group(function () {
 
     Route::get('games', [GameController::class, 'index'])->name('games.index');

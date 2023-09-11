@@ -25,6 +25,7 @@ class Game extends Model
         'secretaryId',
         'roomManagerId',
         'localTeamId',
+        'isHomeMatch',
     ];
 
     /**

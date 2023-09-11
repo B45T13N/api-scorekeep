@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('room_managers', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->nullable();
-
-            $table->timestamps();
+        Schema::table('games', function (Blueprint $table) {
+            $table->boolean('isHomeMatch');
         });
     }
 
@@ -25,6 +21,5 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('room_managers');
     }
 };
