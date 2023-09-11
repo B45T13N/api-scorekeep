@@ -118,6 +118,101 @@ Additionally, an API key is required to enable user registration in the Scorekee
   }
   ```
 
+### Get the List of Matches for the Current Week
+
+- **URL:** `/weekGames`
+- **Method:** GET
+- **Request Parameters:**
+    - `local_team_id` (required, int): The identifier of the local team for which you want to retrieve the matches.
+    - `per_page` (int, optional): The number of items per page (default: 10).
+
+- **Response:**
+  ```json
+  {
+    "data": [
+      {
+        "id": 1,
+        "local_team_id": 2,
+        "visitor_team_id": 1,
+        "game_date": "2023-09-15",
+        // Other match details
+      },
+      {
+        "id": 2,
+        "local_team_id": 2,
+        "visitor_team_id": 3,
+        "game_date": "2023-09-18",
+        // Other match details
+      },
+      // Other matches of the week
+    ],
+    "links": {
+      "first": "url_of_the_first_page",
+      "last": "url_of_the_last_page",
+      "prev": "url_of_the_previous_page",
+      "next": "url_of_the_next_page"
+    },
+    "meta": {
+      "current_page": 1,
+      "from": 1,
+      "last_page": 3,
+      "path": "url_of_the_current_request",
+      "per_page": 10,
+      "to": 10,
+      "total": 28
+    }
+  }
+  ```
+
+### Get Matches Based on Date Range
+
+- **URL:** `/games`
+- **Method:** GET
+- **Request Body:**
+  ```json
+  {
+    "local_team_id": "integer (required)",
+    "start_date": "date (required, must be after or equal to today)",
+    "end_date": "date (required, must be after or equal to today)"
+  }
+  ```
+- **Response:**
+  ```json
+  {
+    "data": [
+      {
+        "id": 1,
+        "localTeamId": 2,
+        "visitorTeamId": 1,
+        "gameDate": "yyyy-mm-dd",
+        // Other match details
+      },
+      {
+        "id": 2,
+        "localTeamId": 2,
+        "visitorTeamId": 3,
+        "gameDate": "yyyy-mm-dd",
+        // Other match details
+      },
+      // Other matches within the specified date range
+    ],
+    "links": {
+      "first": "url_of_the_first_page",
+      "last": "url_of_the_last_page",
+      "prev": "url_of_the_previous_page",
+      "next": "url_of_the_next_page"
+    },
+    "meta": {
+      "current_page": 1,
+      "from": 1,
+      "last_page": n,
+      "path": "url_of_the_current_request",
+      "per_page": 10,
+      "to": 10,
+      "total": total_number_of_matches
+    }
+  }
+  ```
 ### Get Game Details
 
 - **URL:** `/games/{gameId}`
