@@ -20,7 +20,7 @@ class GameController extends Controller
         $rules = [
             'local_team_id' => 'int|required',
             'start_date' => 'date|required|after_or_equal:today',
-            'end_date' => 'date|required',
+            'end_date' => 'date|required|after_or_equal:today',
         ];
 
         $validator = Validator::make($request->all(), $rules);
