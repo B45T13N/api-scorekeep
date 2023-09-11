@@ -118,7 +118,102 @@ De plus, une clé d'API est nécessaire pour permettre l'inscription des utilisa
     }
   }
   ```
+  
+### Obtenir la Liste des Matchs pour la semaine en cours
 
+- **URL:** `/weekGames`
+- **Méthode:** GET
+- **Paramètres de la Requête :**
+  - `local_team_id` (obligatoire, int) : L'identifiant de l'équipe locale pour laquelle vous souhaitez obtenir les matchs.
+  - `per_page` (int, facultatif) : Le nombre d'éléments par page (par défaut : 10).
+
+- **Réponse :**
+  ```json
+  {
+    "data": [
+      {
+        "id": 1,
+        "local_team_id": 2,
+        "visitor_team_id": 1,
+        "game_date": "2023-09-15",
+        // Autres détails du match
+      },
+      {
+        "id": 2,
+        "local_team_id": 2,
+        "visitor_team_id": 3,
+        "game_date": "2023-09-18",
+        // Autres détails du match
+      },
+      // Autres matchs de la semaine
+    ],
+    "links": {
+      "first": "url_de_la_première_page",
+      "last": "url_de_la_dernière_page",
+      "prev": "url_de_la_page_précédente",
+      "next": "url_de_la_page_suivante"
+    },
+    "meta": {
+      "current_page": 1,
+      "from": 1,
+      "last_page": 3,
+      "path": "url_de_la_page_actuelle",
+      "per_page": 10,
+      "to": 10,
+      "total": 28
+    }
+  }
+  ```
+### Obtenir des Matchs en Fonction de la Plage de Dates
+
+- **URL :** `/games`
+- **Méthode :** GET
+- **Corps de la Requête :**
+  ```json
+  {
+    "local_team_id": "entier (obligatoire)",
+    "start_date": "date (obligatoire, doit être postérieure ou égale à aujourd'hui)",
+    "end_date": "date (obligatoire, doit être postérieure ou égale à aujourd'hui)"
+  }
+  ```
+- **Réponse :**
+  ```json
+  {
+    "data": [
+      {
+        "id": 1,
+        "localTeamId": 2,
+        "visitorTeamId": 1,
+        "gameDate": "aaaa-mm-jj",
+        // Autres détails du match
+      },
+      {
+        "id": 2,
+        "localTeamId": 2,
+        "visitorTeamId": 3,
+        "gameDate": "aaaa-mm-jj",
+        // Autres détails du match
+      },
+      // Autres matchs dans la plage de dates spécifiée
+    ],
+    "links": {
+      "first": "URL_de_la_première_page",
+      "last": "URL_de_la_dernière_page",
+      "prev": "URL_de_la_page_précédente",
+      "next": "URL_de_la_page_suivante"
+    },
+    "meta": {
+      "current_page": 1,
+      "from": 1,
+      "last_page": n,
+      "path": "chemin_de_la_requête_actuelle",
+      "per_page": 10,
+      "to": 10,
+      "total": nombre_total_de_matchs
+    }
+  }
+  ```
+    
 ### Récupérer les Détails du Match
 
 - **URL:** `/games/{gameId}`
