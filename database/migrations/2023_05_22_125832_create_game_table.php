@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('address');
             $table->string('category');
-            $table->string('gameDate');
+            $table->dateTime('gameDate');
 
             $table->timestamps();
         });
