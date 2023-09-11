@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 Route::middleware('api.public_key')->group(function () {
 
     Route::get('games', [GameController::class, 'index'])->name('games.index');
+    Route::get('weekGames', [GameController::class, 'weekGames'])->name('games.weekGames');
     Route::get('games/{gameId}', [GameController::class, 'show'])->name('games.show');
 
     Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
