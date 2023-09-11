@@ -6,6 +6,59 @@
 
 Cette API vous permet d'interagir avec différentes ressources en utilisant les méthodes HTTP telles que GET, POST, PUT et DELETE. Elle est construite sur le framework Laravel 10.
 
+## Prérequis
+
+Avant de commencer à travailler sur un projet Laravel 10 avec PHP 8.1, assurez-vous d'avoir installé les éléments suivants sur votre système :
+
+1. **PHP 8.1** : Assurez-vous d'avoir PHP 8.1 installé sur votre système. Vous pouvez le vérifier en exécutant la commande suivante dans votre terminal :
+   
+   ```bash
+   php -v
+   ```
+
+   Si PHP 8.1 n'est pas installé, vous pouvez le télécharger depuis le [site officiel PHP](https://www.php.net/downloads.php) ou utiliser un gestionnaire de paquets tel que [Composer](https://getcomposer.org/) pour l'installer.
+
+2. **Composer** : Composer est un gestionnaire de dépendances essentiel pour les projets Laravel. Assurez-vous de l'avoir installé en suivant les instructions sur [getcomposer.org](https://getcomposer.org/download/).
+
+3. **Git** : Git est utilisé pour gérer les versions de votre code. Si ce n'est pas déjà fait, installez Git en suivant les instructions sur [git-scm.com](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+## Récupération du projet avec Git
+
+Une fois que vous avez vérifié que tous les prérequis sont installés, vous pouvez récupérer le projet en suivant ces étapes :
+
+1. Ouvrez votre terminal et accédez au répertoire où vous souhaitez cloner le dépôt.
+
+2. Utilisez Composer pour créer un nouveau projet Laravel en exécutant la commande suivante :
+
+   ```bash
+   git clone https://github.com/B45T13N/api-scorekeep.git nom-du-projet
+   ```
+
+   Remplacez `nom-du-projet` par le nom que vous souhaitez donner à votre projet.
+
+3. Une fois la création du projet terminée, accédez au répertoire du projet en utilisant la commande `cd` :
+
+   ```bash
+   cd nom-du-projet
+   ```
+
+4. Récupérer les dépendances avec Composer :
+
+   ```bash
+   php composer install
+   ```
+
+5. Lancer les migrations de la base de données :
+
+   ```bash
+   php artisan migrate
+   ```
+6. Pour des données de tests vous pouvez modifier les fichiers de factory et utiliser la commande suivante :
+
+   ```bash
+   php artisan db:seed
+   ```
+
 ## URL de Base
 
 L'URL de base pour toutes les requêtes API est : `http://localhost/api`
