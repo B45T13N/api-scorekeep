@@ -1,4 +1,6 @@
-# API for Scorekeep Web and Mobile Applications (English)
+# API for Scorekeep Web and Mobile Applications
+
+[![Laravel](https://github.com/B45T13N/api-scorekeep/actions/workflows/laravel.yml/badge.svg)](https://github.com/B45T13N/api-scorekeep/actions/workflows/laravel.yml)
 
 This API enables interaction with various resources using HTTP methods such as GET, POST, PUT, and DELETE. It is built on top of the Laravel 10 framework, providing a robust and efficient means of managing your application's data.
 
