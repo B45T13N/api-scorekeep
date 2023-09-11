@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
+use App\Models\LocalTeam;
 use App\Models\VisitorTeam;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,19 +15,20 @@ class RoomManagerControllerTest extends TestCase
     public function testStore()
     {
         VisitorTeam::factory()->create();
+        LocalTeam::factory()->create(['token'=>1234]);
         Game::factory()->create(["visitorTeamId" => 1]);
 
         $name = 'John Doe';
-        $email = 'johndoe@example.com';
+        $token = 1234;
         $gameId = 1;
-        $env = env('API_PUBLIC_KEY');
+
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
         postJson('/api/room-managers/store', [
             'name' => $name,
-            'email' => $email,
+            'token' => $token,
             'gameId' => $gameId
         ]);
 
@@ -35,7 +37,6 @@ class RoomManagerControllerTest extends TestCase
 
         $this->assertDatabaseHas('room_managers', [
             'name' => $name,
-            'email' => $email,
             'gameId' => $gameId
         ]);
     }
@@ -50,7 +51,7 @@ class RoomManagerControllerTest extends TestCase
         postJson('/api/room-managers/store', []);
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['name', 'email']);
+            ->assertJsonValidationErrors(['name', 'token']);
     }
 
 }
