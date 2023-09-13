@@ -79,7 +79,8 @@ Additionally, an API key is required to enable user registration in the Scorekee
   {
     "data": {
       "access_token": "...",
-      "token_type" : "Bearer"
+      "token_type" : "Bearer",
+      "localTeamId": "integer"
     }
   }
   ```
@@ -243,6 +244,7 @@ Additionally, an API key is required to enable user registration in the Scorekee
     "timekeeperId" : integer || null,
     "secretaryId" : integer || null,
     "roomManagerId" :  integer || null,
+    "address" :  string || null,
     "gameDate" : "datetime" > date.now(),
   }
   ```
@@ -260,9 +262,11 @@ Additionally, an API key is required to enable user registration in the Scorekee
 - **Request Body:**
   ```json
   {
+    "localTeamId" : "integer",
     "address" : "string",
     "category" : "string",
     "visitorTeamName" : "string",
+    "isHomeMatch" : "boolean",
     "gameDate" : "datetime" > date.now()
   }
   ```

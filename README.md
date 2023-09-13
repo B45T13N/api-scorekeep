@@ -80,7 +80,8 @@ De plus, une clé d'API est nécessaire pour permettre l'inscription des utilisa
   {
     "data": {
       "access_token": "...",
-      "token_type" : "Bearer"
+      "token_type" : "Bearer",
+      "localTeamId": "integer"
     }
   }
   ```
@@ -244,6 +245,7 @@ De plus, une clé d'API est nécessaire pour permettre l'inscription des utilisa
     "timekeeperId" : integer || null,
     "secretaryId" : integer || null,
     "roomManagerId" :  integer || null,
+    "address" :  string || null,
     "gameDate" : "datetime" > date.now(),
   }
   ```
@@ -261,9 +263,11 @@ De plus, une clé d'API est nécessaire pour permettre l'inscription des utilisa
 - **Corps de la Requête :**
   ```json
   {
+    "localTeamId" : "integer",
     "address" : "string",
     "category" : "string",
     "visitorTeamName" : "string",
+    "isHomeMatch" : "boolean",
     "gameDate" : "datetime" > date.now()
   }
   ```
