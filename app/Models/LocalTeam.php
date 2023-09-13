@@ -25,10 +25,18 @@ class LocalTeam extends Model
     ];
 
     /**
-     * Get the game that owns the visitorTeam.
+     * Get the localTeam that owns the games.
      */
     public function game(): HasMany
     {
         return $this->hasMany(Game::class);
+    }
+
+    /**
+     * Get the localTeam that owns the users.
+     */
+    public function users() : HasMany
+    {
+        return $this->hasMany(User::class);
     }
 }
