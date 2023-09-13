@@ -20,7 +20,7 @@ class GameFactory extends Factory
 
         return [
             'localTeamId' => 1,
-            'address' => fake("fr_FR")->address(),
+            'address' => fake("fr_FR")->streetAddress() . "/" . fake("fr_FR")->postcode() . "/" . fake("fr_FR")->city(),
             'category' => $categories[rand(0, count($categories)-1)],
             'gameDate' => fake("fr_FR")->dateTimeBetween('+2 weeks', '+15 weeks'),
             'visitorTeamId' => rand(1, 15),
