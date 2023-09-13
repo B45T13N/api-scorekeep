@@ -49,7 +49,7 @@ class GameController extends Controller
             $query->whereBetween('gameDate', [$startDate, $endDate]);
         }
 
-        $games = $query->paginate($perPage);
+        $games = $query->orderBy('gameDate')->paginate($perPage);
 
         return GameResource::collection($games);
     }
@@ -98,6 +98,7 @@ class GameController extends Controller
     public function store(Request $request, VisitorTeamController $visitorTeamController)
     {
         $validatedData = $request->validate([
+            'localTeamId' => 'required|exists:local_teams,id',
             'address' => 'required|string',
             'category' => 'required|string',
             'visitorTeamName' => 'required|string',
@@ -111,12 +112,11 @@ class GameController extends Controller
         ]);
 
         $game = new Game();
-
+        $game->localTeamId = $validatedData['localTeamId'];
         $game->address = $validatedData['address'];
         $game->category = $validatedData['category'];
         $game->gameDate = $validatedData['gameDate'];
         $game->isHomeMatch = $validatedData['isHomeMatch'];
-
         $this->checkForeignKeys($request, $game);
 
         $visitorTeam = $visitorTeamController->store($request['visitorTeamName']);
@@ -126,7 +126,7 @@ class GameController extends Controller
         $game->save();
 
 
-        return response()->json(['message' => 'Match enregistré avec succès'], 201);
+        return response()->json(['message' => 'Match enregistré avec succès', 'data' => $game->gameDate], 201);
     }
 
     /**
@@ -160,7 +160,7 @@ class GameController extends Controller
                 'timekeeperId' => 'nullable|exists:timekeepers,id',
                 'secretaryId' => 'nullable|exists:secretaries,id',
                 'roomManagerId' => 'nullable|exists:room_managers,id',
-                'isHomeMatch' => 'nullable|boolean',
+                'address' => 'nullable|string',
                 'gameDate' =>
                     [
                         'required',
@@ -174,9 +174,10 @@ class GameController extends Controller
             if ($request->has('gameDate'))
             {
                 $game->gameDate = $validatedData['gameDate'];
-            } else if ($request->has('isHomeMatch'))
+            }
+            if ($request->has('address'))
             {
-                $game->isHomeMatch = $validatedData['isHomeMatch'];
+                $game->address = $validatedData['address'];
             }
 
             $game->save();
