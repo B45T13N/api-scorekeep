@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
+use App\Models\LocalTeam;
 use App\Models\RoomManager;
 use App\Models\Secretary;
 use App\Models\Timekeeper;
@@ -73,6 +74,8 @@ class GameControllerTest extends TestCase
      */
     public function testStore()
     {
+        LocalTeam::factory()->create();
+
         $visitorTeamName = $this->faker->name;
         $address = $this->faker->address;
         $category = $this->faker->word;
@@ -83,6 +86,7 @@ class GameControllerTest extends TestCase
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
         postJson(route('games.store'), [
+            'localTeamId' => 1,
             'address' => $address,
             'category' => $category,
             'visitorTeamName' => $visitorTeamName,
