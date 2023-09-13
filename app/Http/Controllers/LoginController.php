@@ -32,6 +32,7 @@ class LoginController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'local_team_id' => $user->localTeamId
         ]);
     }
     public function logout(Request $request)
