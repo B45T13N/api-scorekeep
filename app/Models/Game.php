@@ -26,6 +26,10 @@ class Game extends Model
         'roomManagerId',
         'localTeamId',
         'isHomeMatch',
+        'isCancelled',
+        'cancelledDate',
+        'isDeleted',
+        'deletedDate',
     ];
 
     /**
