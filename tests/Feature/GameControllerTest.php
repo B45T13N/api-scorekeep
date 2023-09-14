@@ -223,42 +223,65 @@ class GameControllerTest extends TestCase
         ]);
     }
 
-//    /**
-//     * Test destroy method.
-//     *
-//     * @return void
-//     */
-//    public function testDestroy()
-//    {
-//        $this->withoutExceptionHandling();
-//        VisitorTeam::factory()->create();
-//
-//        $game = Game::factory()->create(["visitorTeamId" => 1]);
-//
-//        $response = $this->deleteJson(route('games.destroy', ['gameId' => $game->id]));
-//
-//        $response->assertOk();
-//        $response->assertJson(['message' => 'Match supprimé avec succès']);
-//
-//        $this->assertDatabaseMissing('games', [
-//            'id' => $game->id,
-//        ]);
-//    }
+    /**
+     * Test the delete function.
+     */
+    public function testDeleteGame()
+    {
+        $game = Game::factory()->create();
 
-//    /**
-//     * Test destroy method with non-existing game.
-//     *
-//     * @return void
-//     */
-//    public function testDestroyNonExistingGame()
-//    {
-//        $this->withoutExceptionHandling();
-//
-//        $response = $this->deleteJson(route('games.destroy', ['gameId' => 9999]));
-//
-//        $response->assertNotFound();
-//        $response->assertJson([
-//            'message' => 'Match non trouvé',
-//        ]);
-//    }
+        $response = $this->withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('games.delete'), [
+            'gameId' => $game->id,
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertSoftDeleted('games', ['id' => $game->id]);
+    }
+
+    /**
+     * Test the confirm function.
+     */
+    public function testConfirmGame()
+    {
+        $game = Game::factory()->create(['isCancelled' => true]);
+
+        $response = $this->withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('games.confirm'), [
+            'gameId' => $game->id,
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('games', [
+            'id' => $game->id,
+            'isCancelled' => false,
+            'cancelledDate' => null,
+        ]);
+    }
+
+    /**
+     * Test the cancel function.
+     */
+    public function testCancelGame()
+    {
+        $game = Game::factory()->create(['isCancelled' => false]);
+
+        $response = $this->withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('games.cancel'), [
+            'gameId' => $game->id,
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('games', [
+            'id' => $game->id,
+            'isCancelled' => true,
+            'cancelledDate' => now(),
+        ]);
+    }
 }
