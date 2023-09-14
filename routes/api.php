@@ -37,6 +37,9 @@ Route::middleware('api.public_key')->group(function () {
     Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
 
     Route::post('games', [GameController::class, 'store'])->name('games.store');
+    Route::post('games/confirm', [GameController::class, 'confirm'])->name('games.confirm');
+    Route::post('games/cancel', [GameController::class, 'cancel'])->name('games.cancel');
+    Route::post('games/delete', [GameController::class, 'delete'])->name('games.delete');
 
     Route::get('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'show'])->name('visitor_teams.show');
 
