@@ -25,6 +25,8 @@ class GameResource extends JsonResource
             'category' => $this->category,
             'gameDate' => $this->gameDate,
             'isHomeMatch' => $this->isHomeMatch,
+            'isCancelled' => $this->isCancelled,
+            'cancelledDate' => $this->cancelledDate,
             'timekeeper' => null,
             'secretary' => null,
             'roomManager' => null,
