@@ -278,6 +278,75 @@ De plus, une clé d'API est nécessaire pour permettre l'inscription des utilisa
   }
   ```
 
+### Supprimer le Match
+
+- **URL:** `/api/games/delete`
+- **Méthode:** POST
+- **Requête :**
+  ```json
+  {
+    "gameId": 1
+  }
+  ```
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "message": "Match supprimé avec succès"
+  }
+  ```
+- **Réponse (404 Not Found) :**
+  ```json
+  {
+    "message": "Match non trouvé",
+  }
+  ```
+
+### Confirmer le Match
+
+- **URL:** `/api/games/confirm`
+- **Méthode:** POST
+- **Requête :**
+  ```json
+  {
+    "gameId": 1
+  }
+  ```
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "message": "Match confirmé avec succès"
+  }
+  ```
+- **Réponse (404 Not Found) :**
+  ```json
+  {
+    "message": "Match non trouvé",
+  }
+  ```
+
+### Annuler le Match
+
+- **URL:** `/api/games/cancel`
+- **Méthode:** POST
+- **Requête :**
+  ```json
+  {
+    "gameId": 1
+  }
+  ```
+- **Réponse (200 OK) :**
+  ```json
+  {
+    "message": "Match annulé avec succès"
+  }
+  ```
+- **Réponse (404 Not Found) :**
+  ```json
+  {
+    "message": "Match non trouvé",
+  }
+  ```
+
 ### Récupérer les Détails de l'Équipe Visiteuse
 
 - **URL:** `/visitor-teams/{visitorTeamId}`

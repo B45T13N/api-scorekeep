@@ -291,6 +291,77 @@ Additionally, an API key is required to enable user registration in the Scorekee
   }
   ```
 
+### Delete Match
+
+- **URL:** `/api/games/delete`
+- **Method:** POST
+- **Request:**
+  ```json
+  {
+    "gameId": 1
+  }
+  ```
+- **Response (200 OK):**
+  ```json
+  {
+    "message": "Match supprimé avec succès"
+  }
+  ```
+
+- **Response (404 Not Found):**
+  ```json
+  {
+    "message": "Match non trouvé",
+  }
+  ```
+
+### Confirm Match
+
+- **URL:** `/api/games/confirm`
+- **Method:** POST
+- **Request:**
+  ```json
+  {
+    "gameId": 1
+  }
+  ```
+- **Response (200 OK):**
+  ```json
+  {
+    "message": "Match supprimé avec succès"
+  }
+  ```
+
+- **Response (404 Not Found):**
+  ```json
+  {
+    "message": "Match non trouvé",
+  }
+  ```
+
+### Cancel Match
+
+- **URL:** `/api/games/cancel`
+- **Method:** POST
+- **Request:**
+  ```json
+  {
+    "gameId": 1
+  }
+  ```
+- **Response (200 OK):**
+  ```json
+  {
+    "message": "Match supprimé avec succès"
+  }
+  ```
+
+- **Response (404 Not Found):**
+  ```json
+  {
+    "message": "Match non trouvé",
+  }
+  ```
 ### Update Visitor Team Information
 
 - **URL:** `/visitor-teams/{visitorTeamId}`
