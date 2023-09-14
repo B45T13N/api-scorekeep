@@ -49,6 +49,8 @@ class GameController extends Controller
             $query->whereBetween('gameDate', [$startDate, $endDate]);
         }
 
+        $query->where('isDeleted', '=', false);
+
         $games = $query->orderBy('gameDate')->paginate($perPage);
 
         return GameResource::collection($games);
@@ -86,6 +88,8 @@ class GameController extends Controller
         $endDate = Carbon::now("Europe/Paris")->addWeek()->format('Y-m-d');
 
         $query->whereBetween('gameDate', [$startDate, $endDate]);
+
+        $query->where('isDeleted', '=', false);
 
         $games = $query->paginate($perPage);
 
@@ -220,14 +224,53 @@ class GameController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Confirm the specified resource from storage.
      */
-    public function destroy(int $gameId)
+    public function confirm(Request $request)
     {
         try {
-            $game = Game::findOrFail($gameId)->first();
+            $validatedData = $request->validate([
+                'gameId' => 'integer|exists:games,id',
+            ]);
 
-            $game->delete();
+            $gameId = $validatedData['gameId'];
+
+            $game = Game::query()->where("id", $gameId)->first();
+
+            $game->isCancelled = false;
+            $game->cancelledDate = null;
+
+            $game->save();
+
+            return response()->json(['message' => 'Match confirmé avec succès'], 200);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return response()->json([
+                'message' => 'Match non trouvé',
+            ], 404);
+        }
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function delete(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'gameId' => 'integer|exists:games,id',
+            ]);
+
+            $gameId = intval($validatedData['gameId']);
+
+            $game = Game::query()->where("id", $gameId)->first();
+
+            $game->isDeleted = true;
+            $game->deletedDate = Carbon::now();
+
+            $game->save();
 
             return response()->json(['message' => 'Match supprimé avec succès'], 200);
         }
@@ -235,7 +278,36 @@ class GameController extends Controller
         {
             return response()->json([
                 'message' => 'Match non trouvé',
-                'exception' => $e->getMessage()
+            ], 404);
+        }
+
+    }
+
+    /**
+     * Cancel the specified resource from storage.
+     */
+    public function cancel(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'gameId' => 'integer|exists:games,id',
+            ]);
+
+            $gameId = $validatedData['gameId'];
+
+            $game = Game::query()->where("id", $gameId)->first();
+
+            $game->isCancelled = true;
+            $game->cancelledDate = Carbon::now();
+
+            $game->save();
+
+            return response()->json(['message' => 'Match annulé avec succès'], 200);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return response()->json([
+                'message' => 'Match non trouvé',
             ], 404);
         }
 
