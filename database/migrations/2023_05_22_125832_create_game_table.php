@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('address');
             $table->string('category');
             $table->dateTime('gameDate');
+            $table->boolean('isCancelled')->nullable()->default(false);
+            $table->dateTime('cancelledDate')->nullable();
+            $table->boolean('isDeleted')->nullable()->default(false);
+            $table->dateTime('deletedDate')->nullable();
 
             $table->timestamps();
         });
