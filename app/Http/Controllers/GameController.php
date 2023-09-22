@@ -140,7 +140,14 @@ class GameController extends Controller
     {
         try
         {
-            return new GameResource(Game::query()->where("id", "=", $gameId)->first());
+            $game = Game::query()->where("id", "=", $gameId)->first();
+
+            if($game === null)
+            {
+                throw new ModelNotFoundException();
+            }
+
+            return new GameResource($game);
         }
         catch (ModelNotFoundException $e)
         {
