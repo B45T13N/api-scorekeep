@@ -170,20 +170,15 @@ class GameControllerTest extends TestCase
         VisitorTeam::factory()->create();
 
         $game = Game::factory()->create(["visitorTeamId" => 1]);
-
-        Timekeeper::factory()->create();
-        Secretary::factory()->create();
-        RoomManager::factory()->create();
-
+        $date = Carbon::now()->addDay()->toDateTimeString();
+        $address = "14 rue du temple 75000 Paris";
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
         putJson(route('games.update', ['gameId' => $game->id]), [
-            'timekeeperId' => 1,
-            'secretaryId' => 1,
-            'roomManagerId' => 1,
-            'gameDate' => Carbon::now()->addDay()->toDateTimeString(),
+            'gameDate' => $date,
+            'address' => $address
         ]);
 
         $response->assertOk();
@@ -191,9 +186,8 @@ class GameControllerTest extends TestCase
 
         $this->assertDatabaseHas('games', [
             'id' => $game->id,
-            'timekeeperId' => 1,
-            'secretaryId' => 1,
-            'roomManagerId' => 1,
+            'address' => $address,
+            'gameDate' => $date
         ]);
     }
 
@@ -211,15 +205,105 @@ class GameControllerTest extends TestCase
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
         putJson(route('games.update', ['gameId' => 9999]), [
-            'timekeeperId' => 1,
-            'secretaryId' => 2,
-            'roomManagerId' => 3,
             'gameDate' => Carbon::now()->addDay()->toDateTimeString(),
         ]);
 
         $response->assertNotFound();
         $response->assertJson([
             'message' => 'Match non trouvé',
+        ]);
+    }
+
+    /**
+     * Test add volunteers method.
+     *
+     * @return void
+     */
+    public function testAddVolunteers()
+    {
+        $this->withoutExceptionHandling();
+        VisitorTeam::factory()->create();
+
+        $game = Game::factory()->create(["visitorTeamId" => 1]);
+
+        Timekeeper::factory()->create();
+        Secretary::factory()->create();
+        RoomManager::factory()->create();
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        putJson(route('games.addVolunteers', ['gameId' => $game->id]), [
+            'timekeeperId' => 1,
+            'secretaryId' => 1,
+            'roomManagerId' => 1,
+        ]);
+
+        $response->assertOk();
+        $response->assertJson(['message' => 'Match mis à jour avec succès']);
+
+        $this->assertDatabaseHas('games', [
+            'id' => $game->id,
+            'timekeeperId' => 1,
+            'secretaryId' => 1,
+            'roomManagerId' => 1,
+        ]);
+    }
+
+    /**
+     * Test add volunteers method with non-existing game.
+     *
+     * @return void
+     */
+    public function testAddVolunteersNonExistingGame()
+    {
+        $this->withoutExceptionHandling();
+
+        Timekeeper::factory()->create();
+        Secretary::factory()->create();
+        RoomManager::factory()->create();
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        putJson(route('games.addVolunteers', ['gameId' => 9999]), [
+            'timekeeperId' => 1,
+            'secretaryId' => 1,
+            'roomManagerId' => 1,
+        ]);
+
+        $response->assertNotFound();
+        $response->assertJson([
+            'message' => 'Match non trouvé',
+        ]);
+    }
+
+    /**
+     * Test add volunteers method with non-existing volunteer.
+     *
+     * @return void
+     */
+    public function testAddVolunteersNonExistingVolunteer()
+    {
+        $this->withoutExceptionHandling();
+        VisitorTeam::factory()->create();
+        $game = Game::factory()->create(["visitorTeamId" => 1]);
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->
+        putJson(route('games.addVolunteers', ['gameId' => 1]), [
+            'timekeeperId' => 1,
+            'secretaryId' => 1,
+            'roomManagerId' => 1,
+        ]);
+
+        $response->assertNotFound();
+        $response->assertJson([
+            'message' => 'Paramètre de requête fournis incorrects ou inexistants',
         ]);
     }
 
