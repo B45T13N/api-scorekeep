@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class GameController extends Controller
 {
@@ -121,7 +121,6 @@ class GameController extends Controller
         $game->category = $validatedData['category'];
         $game->gameDate = $validatedData['gameDate'];
         $game->isHomeMatch = $validatedData['isHomeMatch'];
-        $this->checkForeignKeys($request, $game);
 
         $visitorTeam = $visitorTeamController->store($request['visitorTeamName']);
 
@@ -165,12 +164,14 @@ class GameController extends Controller
     {
         try
         {
-            $game = Game::query()->findOrFail($gameId)->first();
+            $game = Game::query()->where("id", "=", $gameId)->first();
+
+            if($game === null)
+            {
+                throw new ModelNotFoundException();
+            }
 
             $validatedData = $request->validate([
-                'timekeeperId' => 'nullable|exists:timekeepers,id',
-                'secretaryId' => 'nullable|exists:secretaries,id',
-                'roomManagerId' => 'nullable|exists:room_managers,id',
                 'address' => 'nullable|string',
                 'gameDate' =>
                     [
@@ -179,8 +180,6 @@ class GameController extends Controller
                         'after:'.Carbon::now('Europe/Paris')->toDateTimeString(),
                     ],
             ]);
-
-            $this->checkForeignKeys($request, $game);
 
             if ($request->has('gameDate'))
             {
@@ -193,7 +192,6 @@ class GameController extends Controller
 
             $game->save();
 
-            // Réponse de succès
             return response()->json(['message' => 'Match mis à jour avec succès'], 200);
         }
         catch (ModelNotFoundException $e)
@@ -202,6 +200,48 @@ class GameController extends Controller
                     'message' => 'Match non trouvé',
                     'exception' => $e->getMessage()
                 ], 404);
+        }
+    }
+
+    /**
+     * Add volunteeers to the specified resource in storage.
+     */
+    public function addVolunteers(Request $request, int $gameId)
+    {
+        try
+        {
+            $game = Game::query()->where("id", "=", $gameId)->first();
+
+            if($game === null)
+            {
+                throw new ModelNotFoundException();
+            }
+
+            $validatedData = $request->validate([
+                'timekeeperId' => 'exists:timekeepers,id',
+                'secretaryId' => 'exists:secretaries,id',
+                'roomManagerId' => 'exists:room_managers,id',
+            ]);
+
+            $this->checkForeignKeys($validatedData, $game);
+
+            $game->save();
+
+            return response()->json(['message' => 'Match mis à jour avec succès'], 200);
+        }
+        catch (ModelNotFoundException $e)
+        {
+            return response()->json([
+                'message' => 'Match non trouvé',
+                'exception' => $e->getMessage()
+            ], 404);
+        }
+        catch (ValidationException $e)
+        {
+            return response()->json([
+                'message' => 'Paramètre de requête fournis incorrects ou inexistants',
+                'exception' => $e->getMessage()
+            ], 404);
         }
     }
 
@@ -218,7 +258,6 @@ class GameController extends Controller
 
             $game->save();
 
-            // Réponse de succès
             return response()->json(['message' => 'Match mis à jour avec succès'], 200);
         }
         catch (ModelNotFoundException $e)
@@ -320,22 +359,11 @@ class GameController extends Controller
 
     }
 
-    private function checkForeignKeys(Request $request, Game $game): Game
+    private function checkForeignKeys(Array $validatedDatas, Game &$game)
     {
-        if ($request->has('timekeeperId'))
-        {
-            $game->timekeeperId = $request->input('timekeeperId');
-        }
-        if ($request->has('secretaryId'))
-        {
-            $game->secretaryId = $request->input('secretaryId');
-        }
-        if ($request->has('roomManagerId'))
-        {
-            $game->roomManagerId = $request->input('roomManagerId');
-        }
-
-        return $game;
+        $game->timekeeperId = $validatedDatas['timekeeperId'];
+        $game->secretaryId = $validatedDatas['secretaryId'];
+        $game->roomManagerId = $validatedDatas['roomManagerId'];
     }
 
     private function checkFieldUpdated(string $fieldName, int $fieldId, Game $game) : Game
