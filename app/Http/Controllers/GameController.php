@@ -91,7 +91,7 @@ class GameController extends Controller
 
         $query->where('isDeleted', '=', false);
 
-        $games = $query->paginate($perPage);
+        $games = $query->orderBy("gameDate")->paginate($perPage);
 
         return GameResource::collection($games);
     }
@@ -218,9 +218,9 @@ class GameController extends Controller
             }
 
             $validatedData = $request->validate([
-                'timekeeperId' => 'exists:timekeepers,id',
-                'secretaryId' => 'exists:secretaries,id',
-                'roomManagerId' => 'exists:room_managers,id',
+                'timekeeperId' => 'nullable|exists:timekeepers,id',
+                'secretaryId' => 'nullable|exists:secretaries,id',
+                'roomManagerId' => 'nullable|exists:room_managers,id',
             ]);
 
             $this->checkForeignKeys($validatedData, $game);
