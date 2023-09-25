@@ -33,25 +33,34 @@ class GameResource extends JsonResource
             'visitorTeam' => null,
         ];
 
-        if ($this->timekeeperId && Timekeeper::query()->where('id', $this->timekeeperId)->exists()) {
+        if ($this->timekeeperId && Timekeeper::query()->where('id', $this->timekeeperId)->exists())
+        {
             $data['timekeeper'] = new TimekeeperResource(Timekeeper::query()->find($this->timekeeperId));
         }
 
-        if ($this->secretaryId && Secretary::query()->where('id', $this->secretaryId)->exists()) {
+        if ($this->secretaryId && Secretary::query()->where('id', $this->secretaryId)->exists())
+        {
             $data['secretary'] = new SecretaryResource(Secretary::query()->find($this->secretaryId));
         }
 
-        if ($this->roomManagerId && RoomManager::query()->where('id', $this->roomManagerId)->exists()) {
+        if ($this->roomManagerId && RoomManager::query()->where('id', $this->roomManagerId)->exists())
+        {
             $data['roomManager'] = new RoomManagerResource(RoomManager::query()->find($this->roomManagerId));
         }
 
-        if ($this->visitorTeamId && VisitorTeam::query()->where('id', $this->visitorTeamId)->exists()) {
+        if ($this->visitorTeamId && VisitorTeam::query()->where('id', $this->visitorTeamId)->exists())
+        {
             $data['visitorTeam'] = new VisitorTeamResource(VisitorTeam::query()->find($this->visitorTeamId));
         }
 
-        if ($this->localTeamId && LocalTeam::query()->where('id', $this->localTeamId)->exists()) {
+        if ($this->localTeamId && LocalTeam::query()->where('id', $this->localTeamId)->exists())
+        {
             $data['localTeam'] = new LocalTeamResource(LocalTeam::query()->find($this->localTeamId));
         }
+
+        $data['secretaries'] = SecretaryResource::collection(Secretary::query()->where('gameId', "=", $this->id)->get());
+        $data['timekeepers'] = TimekeeperResource::collection(Timekeeper::query()->where('gameId', "=", $this->id)->get());
+        $data['roomManagers'] = RoomManagerResource::collection(RoomManager::query()->where('gameId', "=", $this->id)->get());
 
         return $data;
     }

@@ -20,14 +20,14 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        LocalTeam::factory(1)->create();
-        \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => 'password',
-        ]);
-        VisitorTeam::factory(15)->create();
-        Game::factory(10)->create();
+//        LocalTeam::factory(1)->create();
+//        \App\Models\User::factory()->create([
+//            'name' => 'Test User',
+//            'email' => 'test@example.com',
+//            'password' => 'password',
+//        ]);
+//        VisitorTeam::factory(15)->create();
+//        Game::factory(10)->create();
 
 //        RoomManager::factory(15)->create();
 //        Timekeeper::factory(15)->create();
