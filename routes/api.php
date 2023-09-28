@@ -20,41 +20,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('api.login');
 //Route::post('/register', [\App\Http\Controllers\Api\RegisterController::class, 'register']);
 
-
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('api.logout');
-    Route::post('/me', [App\Http\Controllers\LoginController::class, 'me'])->name('api.me');
-});
 Route::middleware('api.public_key')->group(function () {
+
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+
+        Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('api.logout');
+        Route::post('/me', [App\Http\Controllers\LoginController::class, 'me'])->name('api.me');
+
+        Route::put('games/addVolunteers/{gameId}', [GameController::class, 'addVolunteers'])->name('games.addVolunteers');
+        Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
+        Route::post('games', [GameController::class, 'store'])->name('games.store');
+        Route::post('games/confirm', [GameController::class, 'confirm'])->name('games.confirm');
+        Route::post('games/cancel', [GameController::class, 'cancel'])->name('games.cancel');
+        Route::post('games/delete', [GameController::class, 'delete'])->name('games.delete');
+
+        Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
+    });
+
+    Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('api.login');
 
     Route::get('games', [GameController::class, 'index'])->name('games.index');
     Route::get('weekGames', [GameController::class, 'weekGames'])->name('games.weekGames');
     Route::get('games/{gameId}', [GameController::class, 'show'])->name('games.show');
 
-    Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
-
-    Route::put('games/addVolunteers/{gameId}', [GameController::class, 'addVolunteers'])->name('games.addVolunteers');
-
-    Route::post('games', [GameController::class, 'store'])->name('games.store');
-    Route::post('games/confirm', [GameController::class, 'confirm'])->name('games.confirm');
-    Route::post('games/cancel', [GameController::class, 'cancel'])->name('games.cancel');
-    Route::post('games/delete', [GameController::class, 'delete'])->name('games.delete');
-
     Route::get('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'show'])->name('visitor_teams.show');
-
-    Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
 
     Route::get('/local-teams', [LocalTeamController::class, 'index'])->name('local_teams.index');
 
-    Route::post('/local-teams/store', [LocalTeamController::class, 'store'])->name('local_teams.store');
+    //Route::post('/local-teams/store', [LocalTeamController::class, 'store'])->name('local_teams.store');
 
     Route::get('/local-teams/{localTeamId}', [LocalTeamController::class, 'show'])->name('local_teams.show');
 
-    Route::put('/local-teams/{localTeamId}', [LocalTeamController::class, 'update'])->name('local_teams.update');
-
+    //Route::put('/local-teams/{localTeamId}', [LocalTeamController::class, 'update'])->name('local_teams.update');
 
     Route::post('room-managers/store', [RoomManagerController::class, 'store'])->name('room_managers.store');
 
