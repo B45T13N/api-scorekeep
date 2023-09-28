@@ -19,7 +19,10 @@ class LoginControllerTest extends TestCase
             'password' => $password,
         ]);
 
-        $response = $this->postJson(route('api.login'), [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
             'email' => $user->email,
             'password' => $password,
         ]);
@@ -30,7 +33,10 @@ class LoginControllerTest extends TestCase
 
     public function testLoginWithInvalidCredentials()
     {
-        $response = $this->postJson(route('api.login'), [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
             'email' => 'invalid@example.com',
             'password' => 'invalidpassword',
         ]);
@@ -48,7 +54,10 @@ class LoginControllerTest extends TestCase
             ]
         );
 
-        $response = $this->postJson(route('api.login'), [
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
             'email' => "email@mail.com",
             'password' => "password",
         ]);

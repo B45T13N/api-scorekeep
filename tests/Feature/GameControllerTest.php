@@ -7,6 +7,7 @@ use App\Models\LocalTeam;
 use App\Models\RoomManager;
 use App\Models\Secretary;
 use App\Models\Timekeeper;
+use App\Models\User;
 use App\Models\VisitorTeam;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -80,6 +81,21 @@ class GameControllerTest extends TestCase
         $address = $this->faker->address;
         $category = $this->faker->word;
         $gameDate = Carbon::now()->addDay()->toDateTimeString();
+
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
 
         $response = $this->
         withHeaders([
@@ -169,6 +185,21 @@ class GameControllerTest extends TestCase
         $this->withoutExceptionHandling();
         VisitorTeam::factory()->create();
 
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
+
         $game = Game::factory()->create(["visitorTeamId" => 1]);
         $date = Carbon::now()->addDay()->toDateTimeString();
         $address = "14 rue du temple 75000 Paris";
@@ -200,6 +231,21 @@ class GameControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
+
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
@@ -223,6 +269,21 @@ class GameControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         VisitorTeam::factory()->create();
+
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
 
         $game = Game::factory()->create(["visitorTeamId" => 1]);
 
@@ -260,6 +321,21 @@ class GameControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
+
         Timekeeper::factory()->create();
         Secretary::factory()->create();
         RoomManager::factory()->create();
@@ -291,6 +367,21 @@ class GameControllerTest extends TestCase
         VisitorTeam::factory()->create();
         $game = Game::factory()->create(["visitorTeamId" => 1]);
 
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
+
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
@@ -312,6 +403,21 @@ class GameControllerTest extends TestCase
      */
     public function testDeleteGame()
     {
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
+
         $game = Game::factory()->create();
 
         $response = $this->withHeaders([
@@ -330,6 +436,21 @@ class GameControllerTest extends TestCase
      */
     public function testConfirmGame()
     {
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
+
         $game = Game::factory()->create(['isCancelled' => true]);
 
         $response = $this->withHeaders([
@@ -352,6 +473,21 @@ class GameControllerTest extends TestCase
      */
     public function testCancelGame()
     {
+        $user = User::factory()->create(
+            [
+                "email" => "email@mail.com",
+                "password" => "password"
+            ]
+        );
+
+        $response = $this->
+        withHeaders([
+            'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
+        ])->postJson(route('api.login'), [
+            'email' => "email@mail.com",
+            'password' => "password",
+        ]);
+
         $game = Game::factory()->create(['isCancelled' => false]);
 
         $response = $this->withHeaders([
