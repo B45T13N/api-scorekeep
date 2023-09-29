@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\LocalTeamController;
-use App\Http\Controllers\RoomManagerController;
-use App\Http\Controllers\SecretaryController;
-use App\Http\Controllers\TimekeeperController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VisitorTeamController;
+use App\Http\Controllers\VolunteerController;
+use App\Http\Controllers\VolunteerTypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +26,8 @@ Route::middleware('api.public_key')->group(function () {
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
 
-        Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('api.logout');
-        Route::post('/me', [App\Http\Controllers\LoginController::class, 'me'])->name('api.me');
+        Route::post('/logout', [LoginController::class, 'logout'])->name('api.logout');
+        Route::post('/me', [LoginController::class, 'me'])->name('api.me');
 
         Route::put('games/addVolunteers/{gameId}', [GameController::class, 'addVolunteers'])->name('games.addVolunteers');
         Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
@@ -39,7 +39,7 @@ Route::middleware('api.public_key')->group(function () {
         Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
     });
 
-    Route::post('/login', [\App\Http\Controllers\LoginController::class, 'login'])->name('api.login');
+    Route::post('/login', [LoginController::class, 'login'])->name('api.login');
 
     Route::get('games', [GameController::class, 'index'])->name('games.index');
     Route::get('weekGames', [GameController::class, 'weekGames'])->name('games.weekGames');
@@ -55,11 +55,10 @@ Route::middleware('api.public_key')->group(function () {
 
     //Route::put('/local-teams/{localTeamId}', [LocalTeamController::class, 'update'])->name('local_teams.update');
 
-    Route::post('room-managers/store', [RoomManagerController::class, 'store'])->name('room_managers.store');
+    Route::post('volunteers/store', [VolunteerController::class, 'store'])->name('volunteers.store');
 
-    Route::post('secretaries/store', [SecretaryController::class, 'store'])->name('secretaries.store');
-
-    Route::post('timekeepers/store', [TimekeeperController::class, 'store'])->name('timekeepers.store');
+    Route::get('volunteer-types/show/{volunteerTypeId}', [VolunteerTypeController::class, 'show'])->name('volunteers.show');
+    Route::get('volunteer-types/show-all', [VolunteerTypeController::class, 'showAll'])->name('volunteers.showAll');
 });
 
 
