@@ -5,23 +5,24 @@ namespace App\Http\Controllers;
 use App\Exceptions\TokenMismatch;
 use App\Models\Game;
 use App\Models\LocalTeam;
-use App\Models\Secretary;
+use App\Models\Volunteer;
 use Illuminate\Http\Request;
 
-class SecretaryController extends Controller
+class VolunteerController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      */
-    public function insert(string $name, string $email)
+    public function insert(string $name, string $email, int $volunteerTypeId)
     {
         try
         {
-            $secretary = new Secretary();
-            $secretary->name = $name;
-            $secretary->email = $email;
+            $volunteer = new Volunteer();
+            $volunteer->name = $name;
+            $volunteer->email = $email;
+            $volunteer->volunteerTypeId = $volunteerTypeId;
 
-            $secretary->save();
+            $volunteer->save();
         }
         catch (\Throwable $e)
         {
@@ -32,11 +33,12 @@ class SecretaryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, GameController $gameController)
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
 //            'email' => 'required|email',
+            'volunteerTypeId' => 'required|int',
             'gameId' => 'required|int',
             'token' => 'required|int'
         ]);
@@ -51,22 +53,23 @@ class SecretaryController extends Controller
                 throw new TokenMismatch();
             }
 
-            $secretary = new Secretary();
+            $volunteer = new Volunteer();
 
-            $secretary->name = $validatedData['name'];
-//            $secretary->email = $validatedData['email'];
-            $secretary->gameId = $validatedData['gameId'];
+            $volunteer->name = $validatedData['name'];
+//            $volunteer->email = $validatedData['email'];
+            $volunteer->gameId = $validatedData['gameId'];
+            $volunteer->volunteerTypeId = $validatedData['volunteerTypeId'];
 
-            $secretary->save();
+            $volunteer->save();
 
             return response()->json([
-                'message' => 'Secrétaire enregistré avec succès',
-                'data' => $secretary
+                'message' => 'Bénévole enregistré avec succès',
+                'data' => $volunteer
             ], 201);
         }
         catch (\Throwable $e)
         {
-            return response()->json(['message' => 'Erreur lors de l\'enregistrement du secrétaire'], 404);
+            return response()->json(['message' => 'Erreur lors de l\'enregistrement du bénévole'], 404);
         }
     }
 }
