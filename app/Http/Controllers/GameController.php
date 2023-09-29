@@ -218,9 +218,9 @@ class GameController extends Controller
             }
 
             $validatedData = $request->validate([
-                'timekeeperId' => 'nullable|exists:timekeepers,id',
-                'secretaryId' => 'nullable|exists:secretaries,id',
-                'roomManagerId' => 'nullable|exists:room_managers,id',
+                'timekeeperId' => 'nullable|exists:volunteers,id',
+                'secretaryId' => 'nullable|exists:volunteers,id',
+                'roomManagerId' => 'nullable|exists:volunteers,id',
             ]);
 
             $this->checkForeignKeys($validatedData, $game);
@@ -240,30 +240,6 @@ class GameController extends Controller
         {
             return response()->json([
                 'message' => 'Paramètre de requête fournis incorrects ou inexistants',
-                'exception' => $e->getMessage()
-            ], 404);
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function addPerson(string $fieldName, int $fieldId, int $gameId)
-    {
-        try
-        {
-            $game = Game::query()->where("id", $gameId)->first();
-
-            $game = $this->checkFieldUpdated($fieldName, $fieldId, $game);
-
-            $game->save();
-
-            return response()->json(['message' => 'Match mis à jour avec succès'], 200);
-        }
-        catch (ModelNotFoundException $e)
-        {
-            return response()->json([
-                'message' => 'Match non trouvé',
                 'exception' => $e->getMessage()
             ], 404);
         }
