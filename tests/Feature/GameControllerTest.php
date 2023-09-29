@@ -4,11 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\Game;
 use App\Models\LocalTeam;
-use App\Models\RoomManager;
-use App\Models\Secretary;
-use App\Models\Timekeeper;
 use App\Models\User;
 use App\Models\VisitorTeam;
+use App\Models\Volunteer;
+use App\Models\VolunteerType;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -287,9 +286,12 @@ class GameControllerTest extends TestCase
 
         $game = Game::factory()->create(["visitorTeamId" => 1]);
 
-        Timekeeper::factory()->create();
-        Secretary::factory()->create();
-        RoomManager::factory()->create();
+        VolunteerType::factory()->create();
+        VolunteerType::factory()->create();
+        VolunteerType::factory()->create();
+        Volunteer::factory()->create(['volunteerTypeId' => 1]);
+        Volunteer::factory()->create(['volunteerTypeId' => 2]);
+        Volunteer::factory()->create(['volunteerTypeId' => 3]);
 
         $response = $this->
         withHeaders([
@@ -336,9 +338,12 @@ class GameControllerTest extends TestCase
             'password' => "password",
         ]);
 
-        Timekeeper::factory()->create();
-        Secretary::factory()->create();
-        RoomManager::factory()->create();
+        VolunteerType::factory()->create();
+        VolunteerType::factory()->create();
+        VolunteerType::factory()->create();
+        Volunteer::factory()->create(['volunteerTypeId' => 1]);
+        Volunteer::factory()->create(['volunteerTypeId' => 2]);
+        Volunteer::factory()->create(['volunteerTypeId' => 3]);
 
         $response = $this->
         withHeaders([
