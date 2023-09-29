@@ -289,9 +289,11 @@ class GameControllerTest extends TestCase
         VolunteerType::factory()->create();
         VolunteerType::factory()->create();
         VolunteerType::factory()->create();
+        VolunteerType::factory()->create();
         Volunteer::factory()->create(['volunteerTypeId' => 1]);
         Volunteer::factory()->create(['volunteerTypeId' => 2]);
         Volunteer::factory()->create(['volunteerTypeId' => 3]);
+        Volunteer::factory()->create(['volunteerTypeId' => 4]);
 
         $response = $this->
         withHeaders([
@@ -301,6 +303,7 @@ class GameControllerTest extends TestCase
             'timekeeperId' => 1,
             'secretaryId' => 1,
             'roomManagerId' => 1,
+            'drinkManagerId' => 1,
         ]);
 
         $response->assertOk();

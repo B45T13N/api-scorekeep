@@ -28,6 +28,7 @@ class GameResource extends JsonResource
             'timekeeper' => null,
             'secretary' => null,
             'roomManager' => null,
+            'drinkManager' => null,
             'visitorTeam' => null,
         ];
 

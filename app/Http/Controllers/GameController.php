@@ -221,6 +221,7 @@ class GameController extends Controller
                 'timekeeperId' => 'nullable|exists:volunteers,id',
                 'secretaryId' => 'nullable|exists:volunteers,id',
                 'roomManagerId' => 'nullable|exists:volunteers,id',
+                'drinkManagerId' => 'nullable|exists:volunteers,id',
             ]);
 
             $this->checkForeignKeys($validatedData, $game);
@@ -340,6 +341,7 @@ class GameController extends Controller
         $game->timekeeperId = $validatedDatas['timekeeperId'];
         $game->secretaryId = $validatedDatas['secretaryId'];
         $game->roomManagerId = $validatedDatas['roomManagerId'];
+        $game->drinkManagerId = $validatedDatas['drinkManagerId'];
     }
 
     private function checkFieldUpdated(string $fieldName, int $fieldId, Game $game) : Game

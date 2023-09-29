@@ -18,7 +18,7 @@ class LocalTeamFactory extends Factory
     {
         return [
             'name' => "Avon Handball",
-            'logo' => "http://avonhandball.fr/wp-content/uploads/2020/08/avon-handball-1.png",
+            'logo' => "https://avonhandball.fr/wp-content/uploads/2020/08/avon-handball-1.png",
             'token' => 77210
         ];
     }
