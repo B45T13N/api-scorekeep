@@ -27,11 +27,13 @@ return new class extends Migration
             $table->bigInteger('localTeamId')->unsigned()->nullable();
             $table->bigInteger('secretaryId')->unsigned()->nullable();
             $table->bigInteger('roomManagerId')->unsigned()->nullable();
+            $table->bigInteger('drinkManagerId')->unsigned()->nullable();
 
             $table->foreign('localTeamId')->references('id')->on('local_teams');
             $table->foreign('timekeeperId')->references('id')->on('volunteers')->onDelete('cascade');
             $table->foreign('secretaryId')->references('id')->on('volunteers')->onDelete('cascade');
             $table->foreign('roomManagerId')->references('id')->on('volunteers')->onDelete('cascade');
+            $table->foreign('drinkManagerId')->references('id')->on('volunteers')->onDelete('cascade');
             $table->foreign('visitorTeamId')->references('id')->on('visitor_teams')->onDelete('cascade');
         });
 
@@ -59,12 +61,14 @@ return new class extends Migration
             $table->dropForeign(['timekeeperId']);
             $table->dropForeign(['secretaryId']);
             $table->dropForeign(['roomManagerId']);
+            $table->dropForeign(['drinkManagerId']);
             $table->dropForeign(['visitorTeamId']);
 
             $table->dropColumn('localTeamId');
             $table->dropColumn('timekeeperId');
             $table->dropColumn('secretaryId');
             $table->dropColumn('roomManagerId');
+            $table->dropColumn('drinkManagerId');
             $table->dropColumn('visitorTeamId');
         });
 
