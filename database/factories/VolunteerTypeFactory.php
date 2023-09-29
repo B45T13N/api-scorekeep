@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Timekeeper>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Volunteer>
  */
-class TimekeeperFactory extends Factory
+class VolunteerTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +17,7 @@ class TimekeeperFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake("fr_FR")->name(),
-            'email' => fake("fr_FR")->unique()->email(),
-            'gameId' => rand(1, 10),
+            'label' => fake("fr_FR")->word(),
         ];
     }
 }
