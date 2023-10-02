@@ -11,25 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('timekeepers', function (Blueprint $table)
+        Schema::table('volunteers', function (Blueprint $table)
         {
             $table->bigInteger('gameId')->unsigned();
+            $table->bigInteger('volunteerTypeId')->unsigned();
 
             $table->foreign('gameId')->references('id')->on('games');
-        });
-
-        Schema::table('secretaries', function (Blueprint $table)
-        {
-            $table->bigInteger('gameId')->unsigned();
-
-            $table->foreign('gameId')->references('id')->on('games');
-        });
-
-        Schema::table('room_managers', function (Blueprint $table)
-        {
-            $table->bigInteger('gameId')->unsigned();
-
-            $table->foreign('gameId')->references('id')->on('games');
+            $table->foreign('volunteerTypeId')->references('id')->on('volunteer_types');
         });
 
         Schema::table('games', function (Blueprint $table)
@@ -39,11 +27,13 @@ return new class extends Migration
             $table->bigInteger('localTeamId')->unsigned()->nullable();
             $table->bigInteger('secretaryId')->unsigned()->nullable();
             $table->bigInteger('roomManagerId')->unsigned()->nullable();
+            $table->bigInteger('drinkManagerId')->unsigned()->nullable();
 
             $table->foreign('localTeamId')->references('id')->on('local_teams');
-            $table->foreign('timekeeperId')->references('id')->on('timekeepers')->onDelete('cascade');
-            $table->foreign('secretaryId')->references('id')->on('secretaries')->onDelete('cascade');
-            $table->foreign('roomManagerId')->references('id')->on('room_managers')->onDelete('cascade');
+            $table->foreign('timekeeperId')->references('id')->on('volunteers')->onDelete('cascade');
+            $table->foreign('secretaryId')->references('id')->on('volunteers')->onDelete('cascade');
+            $table->foreign('roomManagerId')->references('id')->on('volunteers')->onDelete('cascade');
+            $table->foreign('drinkManagerId')->references('id')->on('volunteers')->onDelete('cascade');
             $table->foreign('visitorTeamId')->references('id')->on('visitor_teams')->onDelete('cascade');
         });
 
@@ -59,19 +49,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('timekeepers', function (Blueprint $table) {
+        Schema::table('volunteers', function (Blueprint $table) {
             $table->dropForeign(['gameId']);
             $table->dropColumn('gameId');
-        });
-
-        Schema::table('secretaries', function (Blueprint $table) {
-            $table->dropForeign(['gameId']);
-            $table->dropColumn('gameId');
-        });
-
-        Schema::table('room_managers', function (Blueprint $table) {
-            $table->dropForeign(['gameId']);
-            $table->dropColumn('gameId');
+            $table->dropForeign(['volunteerTypeId']);
+            $table->dropColumn('volunteerTypeId');
         });
 
         Schema::table('games', function (Blueprint $table) {
@@ -79,12 +61,14 @@ return new class extends Migration
             $table->dropForeign(['timekeeperId']);
             $table->dropForeign(['secretaryId']);
             $table->dropForeign(['roomManagerId']);
+            $table->dropForeign(['drinkManagerId']);
             $table->dropForeign(['visitorTeamId']);
 
             $table->dropColumn('localTeamId');
             $table->dropColumn('timekeeperId');
             $table->dropColumn('secretaryId');
             $table->dropColumn('roomManagerId');
+            $table->dropColumn('drinkManagerId');
             $table->dropColumn('visitorTeamId');
         });
 

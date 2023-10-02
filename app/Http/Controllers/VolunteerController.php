@@ -5,23 +5,24 @@ namespace App\Http\Controllers;
 use App\Exceptions\TokenMismatch;
 use App\Models\Game;
 use App\Models\LocalTeam;
-use App\Models\RoomManager;
+use App\Models\Volunteer;
 use Illuminate\Http\Request;
 
-class RoomManagerController extends Controller
+class VolunteerController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      */
-    public function insert(string $name, string $email)
+    public function insert(string $name, string $email, int $volunteerTypeId)
     {
         try
         {
-            $roomManager = new RoomManager();
-            $roomManager->name = $name;
-            $roomManager->email = $email;
+            $volunteer = new Volunteer();
+            $volunteer->name = $name;
+            $volunteer->email = $email;
+            $volunteer->volunteerTypeId = $volunteerTypeId;
 
-            $roomManager->save();
+            $volunteer->save();
         }
         catch (\Throwable $e)
         {
@@ -32,11 +33,12 @@ class RoomManagerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, GameController $gameController)
+    public function store(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
 //            'email' => 'required|email',
+            'volunteerTypeId' => 'required|int',
             'gameId' => 'required|int',
             'token' => 'required|int'
         ]);
@@ -51,22 +53,23 @@ class RoomManagerController extends Controller
                 throw new TokenMismatch();
             }
 
-            $roomManager = new RoomManager();
+            $volunteer = new Volunteer();
 
-            $roomManager->name = $validatedData['name'];
-//            $roomManager->email = $validatedData['email'];
-            $roomManager->gameId = $validatedData['gameId'];
+            $volunteer->name = $validatedData['name'];
+//            $volunteer->email = $validatedData['email'];
+            $volunteer->gameId = $validatedData['gameId'];
+            $volunteer->volunteerTypeId = $validatedData['volunteerTypeId'];
 
-            $roomManager->save();
+            $volunteer->save();
 
             return response()->json([
-                'message' => 'Responsable de salle enregistré avec succès',
-                'data' => $roomManager
+                'message' => 'Bénévole enregistré avec succès',
+                'data' => $volunteer
             ], 201);
         }
         catch (\Throwable $e)
         {
-            return response()->json(['message' => 'Erreur lors de l\'enregistrement du responsable de salle'], 404);
+            return response()->json(['message' => 'Erreur lors de l\'enregistrement du bénévole'], 404);
         }
     }
 }

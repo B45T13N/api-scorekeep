@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\RoomManager>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Volunteer>
  */
-class RoomManagerFactory extends Factory
+class VolunteerFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,6 @@ class RoomManagerFactory extends Factory
             'name' => fake("fr_FR")->name(),
             'email' => fake("fr_FR")->unique()->email(),
             'gameId' => rand(1, 10),
-
         ];
     }
 }

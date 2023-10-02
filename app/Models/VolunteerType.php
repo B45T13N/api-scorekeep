@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class RoomManager extends Model
+class VolunteerType extends Model
 {
     use HasFactory;
 
@@ -18,15 +18,14 @@ class RoomManager extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'label',
     ];
 
     /**
-     * Get the game that owns the room Manager.
+     * Get the volunteerTypes that owns the volunteer.
      */
-    public function game(): BelongsTo
+    public function volunteers(): HasMany
     {
-        return $this->belongsTo(Game::class);
+        return $this->hasMany(Volunteer::class);
     }
 }
