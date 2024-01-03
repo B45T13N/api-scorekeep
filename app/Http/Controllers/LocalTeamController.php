@@ -50,10 +50,10 @@ class LocalTeamController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $localTeamId
+     * @param  string  $localTeamId
      *
      */
-    public function show(int $localTeamId)
+    public function show(string $localTeamId)
     {
         try {
             $localTeam = LocalTeam::findOrFail($localTeamId);

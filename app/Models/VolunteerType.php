@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class VolunteerType extends Model
+class VolunteerType extends BaseModel
 {
     use HasFactory;
-
-    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.

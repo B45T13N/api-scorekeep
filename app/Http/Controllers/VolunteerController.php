@@ -13,7 +13,7 @@ class VolunteerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function insert(string $name, string $email, int $volunteerTypeId)
+    public function insert(string $name, string $email, string $volunteerTypeId)
     {
         try
         {
@@ -38,8 +38,8 @@ class VolunteerController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
 //            'email' => 'required|email',
-            'volunteerTypeId' => 'required|int',
-            'gameId' => 'required|int',
+            'volunteerTypeId' => 'required|string',
+            'gameId' => 'required|string',
             'token' => 'required|int'
         ]);
 

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('local_teams', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->string('name');
             $table->string('logo');
             $table->string('token')->nullable();

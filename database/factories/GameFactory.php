@@ -19,7 +19,6 @@ class GameFactory extends Factory
         $categories = ['Sénior M1', 'Sénior M2', 'Sénior F1', 'Sénior F2', 'U11 F', 'U11 M', 'U16 M', 'U16 F', 'U18 F', 'U18 M'];
 
         return [
-            'localTeamId' => 1,
             'address' => fake("fr_FR")->streetAddress() . "/" . fake("fr_FR")->postcode() . "/" . fake("fr_FR")->city(),
             'category' => $categories[rand(0, count($categories)-1)],
             'gameDate' => fake("fr_FR")->dateTimeBetween('+2 weeks', '+15 weeks'),

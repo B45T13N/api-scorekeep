@@ -12,7 +12,7 @@ class VolunteerTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $volunteerTypeId)
+    public function show(string $volunteerTypeId)
     {
         try
         {

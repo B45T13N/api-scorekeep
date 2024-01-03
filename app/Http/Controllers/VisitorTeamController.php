@@ -26,7 +26,7 @@ class VisitorTeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $visitorTeamId)
+    public function show(string $visitorTeamId)
     {
         try
         {

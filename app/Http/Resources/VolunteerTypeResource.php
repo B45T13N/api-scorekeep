@@ -15,7 +15,7 @@ class VolunteerTypeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'label' => $this->label,
         ];
     }
