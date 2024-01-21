@@ -3,9 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Notifications\CustomResetPasswordNotification;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -26,7 +26,7 @@ class ResetPasswordControllerTest extends TestCase
         ])->post('/api/password/reset-link', ['email' => $user->email])
             ->assertStatus(200);
 
-        Notification::assertSentTo($user, ResetPassword::class);
+        Notification::assertSentTo($user, CustomResetPasswordNotification::class);
     }
 
     /** @test */
@@ -42,8 +42,12 @@ class ResetPasswordControllerTest extends TestCase
         ])->post('/api/password/reset-link', ['email' => $user->email]);
 
         $token = '';
-        Notification::assertSentTo($user, ResetPassword::class, function ($notification) use (&$token) {
-            $token = $notification->token;
+        Notification::assertSentTo($user, CustomResetPasswordNotification::class, function ($notification) use (&$token){
+            $queryString = parse_url($notification->url, PHP_URL_QUERY);
+
+            parse_str($queryString, $params);
+
+            $token = $params['token'] ?? null;
             return true;
         });
 
