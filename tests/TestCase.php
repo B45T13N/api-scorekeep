@@ -11,7 +11,5 @@ abstract class TestCase extends BaseTestCase
 
     public static function setUpBeforeClass(): void
     {
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../', '.env.testing');
-        $dotenv->load();
     }
 }

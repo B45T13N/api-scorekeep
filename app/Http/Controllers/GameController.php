@@ -18,7 +18,7 @@ class GameController extends Controller
     public function index(Request $request)
     {
         $rules = [
-            'local_team_id' => 'int|required',
+            'local_team_id' => 'string|required',
             'start_date' => 'date|required|after_or_equal:today',
             'end_date' => 'date|required|after_or_equal:today',
         ];
@@ -49,7 +49,7 @@ class GameController extends Controller
             $query->whereBetween('gameDate', [$startDate, $endDate]);
         }
 
-        $query->where('isDeleted', '=', false);
+        $query->where('isDeleted', false);
 
         $games = $query->orderBy('gameDate')->paginate($perPage);
 
@@ -62,7 +62,7 @@ class GameController extends Controller
     public function weekGames(Request $request)
     {
         $rules = [
-            'local_team_id' => 'int|required',
+            'local_team_id' => 'string|required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -89,7 +89,7 @@ class GameController extends Controller
 
         $query->whereBetween('gameDate', [$startDate, $endDate]);
 
-        $query->where('isDeleted', '=', false);
+        $query->where('isDeleted', false);
 
         $games = $query->orderBy("gameDate")->paginate($perPage);
 
@@ -102,7 +102,7 @@ class GameController extends Controller
     public function store(Request $request, VisitorTeamController $visitorTeamController)
     {
         $validatedData = $request->validate([
-            'localTeamId' => 'required|exists:local_teams,id',
+            'localTeamId' => 'required|exists:local_teams,uuid',
             'address' => 'required|string',
             'category' => 'required|string',
             'visitorTeamName' => 'required|string',
@@ -124,7 +124,7 @@ class GameController extends Controller
 
         $visitorTeam = $visitorTeamController->store($request['visitorTeamName']);
 
-        $game->visitorTeamId = $visitorTeam->id;
+        $game->visitorTeamId = $visitorTeam->uuid;
 
         $game->save();
 
@@ -135,18 +135,18 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $gameId)
+    public function show(string $gameId)
     {
         try
         {
-            $game = Game::query()->where("id", "=", $gameId)->first();
+            $game = Game::query()->where("uuid", $gameId)->first();
 
             if($game === null)
             {
                 throw new ModelNotFoundException();
             }
 
-            return new GameResource($game);
+            return response()->json(new GameResource($game));
         }
         catch (ModelNotFoundException $e)
         {
@@ -160,11 +160,11 @@ class GameController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $gameId)
+    public function update(Request $request, string $gameId)
     {
         try
         {
-            $game = Game::query()->where("id", "=", $gameId)->first();
+            $game = Game::query()->where("uuid", $gameId)->first();
 
             if($game === null)
             {
@@ -206,11 +206,11 @@ class GameController extends Controller
     /**
      * Add volunteeers to the specified resource in storage.
      */
-    public function addVolunteers(Request $request, int $gameId)
+    public function addVolunteers(Request $request, string $gameId)
     {
         try
         {
-            $game = Game::query()->where("id", "=", $gameId)->first();
+            $game = Game::query()->where("uuid", $gameId)->first();
 
             if($game === null)
             {
@@ -218,10 +218,10 @@ class GameController extends Controller
             }
 
             $validatedData = $request->validate([
-                'timekeeperId' => 'nullable|exists:volunteers,id',
-                'secretaryId' => 'nullable|exists:volunteers,id',
-                'roomManagerId' => 'nullable|exists:volunteers,id',
-                'drinkManagerId' => 'nullable|exists:volunteers,id',
+                'timekeeperId' => 'nullable|exists:volunteers,uuid',
+                'secretaryId' => 'nullable|exists:volunteers,uuid',
+                'roomManagerId' => 'nullable|exists:volunteers,uuid',
+                'drinkManagerId' => 'nullable|exists:volunteers,uuid',
             ]);
 
             $this->checkForeignKeys($validatedData, $game);
@@ -253,12 +253,12 @@ class GameController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'gameId' => 'integer|exists:games,id',
+                'gameId' => 'string|exists:games,uuid',
             ]);
 
             $gameId = $validatedData['gameId'];
 
-            $game = Game::query()->where("id", $gameId)->first();
+            $game = Game::query()->where("uuid", $gameId)->first();
 
             $game->isCancelled = false;
             $game->cancelledDate = null;
@@ -283,12 +283,12 @@ class GameController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'gameId' => 'integer|exists:games,id',
+                'gameId' => 'string|exists:games,uuid',
             ]);
 
-            $gameId = intval($validatedData['gameId']);
+            $gameId = $validatedData['gameId'];
 
-            $game = Game::query()->where("id", $gameId)->first();
+            $game = Game::query()->where("uuid", $gameId)->first();
 
             $game->isDeleted = true;
             $game->deletedDate = Carbon::now();
@@ -313,12 +313,12 @@ class GameController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'gameId' => 'integer|exists:games,id',
+                'gameId' => 'string|exists:games,uuid',
             ]);
 
             $gameId = $validatedData['gameId'];
 
-            $game = Game::query()->where("id", $gameId)->first();
+            $game = Game::query()->where("uuid", $gameId)->first();
 
             $game->isCancelled = true;
             $game->cancelledDate = Carbon::now();

@@ -12,7 +12,7 @@ class VolunteerTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $volunteerTypeId)
+    public function show(string $volunteerTypeId)
     {
         try
         {
@@ -34,9 +34,7 @@ class VolunteerTypeController extends Controller
     {
         try {
             $volunteerTypes = VolunteerType::all();
-            return response()->json([
-                'data' => VolunteerTypeResource::collection($volunteerTypes),
-            ], 200);
+            return response()->json(VolunteerTypeResource::collection($volunteerTypes), 200);
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Catégories de bénévole non trouvée',

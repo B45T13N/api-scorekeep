@@ -7,11 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class LocalTeam extends Model
+class LocalTeam extends BaseModel
 {
     use HasFactory;
-
-    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +20,14 @@ class LocalTeam extends Model
         'name',
         'logo',
         'token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
     ];
 
     /**

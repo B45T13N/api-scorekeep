@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class VisitorTeam extends Model
+class VisitorTeam extends BaseModel
 {
     use HasFactory;
-
-    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +17,14 @@ class VisitorTeam extends Model
      */
     protected $fillable = [
         'name',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
     ];
 
     /**

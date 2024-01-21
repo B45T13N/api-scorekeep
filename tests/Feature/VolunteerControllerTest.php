@@ -15,15 +15,17 @@ class VolunteerControllerTest extends TestCase
 
     public function testStore()
     {
-        VisitorTeam::factory()->create();
-        VolunteerType::factory()->create();
-        LocalTeam::factory()->create(['token'=>1234]);
-        Game::factory()->create(["visitorTeamId" => 1]);
+        $visitorTeam = VisitorTeam::factory()->create();
+        $volunteerTypeId = VolunteerType::factory()->create();
+        $localTeam = LocalTeam::factory()->create(['token'=>1234]);
+        $game = Game::factory()->create([
+            "visitorTeamId" => $visitorTeam->uuid,
+            "localTeamId" => $localTeam->uuid]);
 
         $name = 'John Doe';
         $token = 1234;
-        $gameId = 1;
-        $volunteerTypeId = 1;
+        $gameId = $game->uuid;
+        $volunteerTypeId = $volunteerTypeId->uuid;
 
         $response = $this->
         withHeaders([
@@ -40,7 +42,6 @@ class VolunteerControllerTest extends TestCase
         ->assertJson(['message' => 'Bénévole enregistré avec succès']);
 
         $this->assertDatabaseHas('volunteers', [
-            'name' => $name,
             'gameId' => $gameId,
             'volunteerTypeId' => $volunteerTypeId
         ]);
@@ -63,8 +64,8 @@ class VolunteerControllerTest extends TestCase
     {
         $name = 'John Doe';
         $token = 1234;
-        $gameId = 1;
-        $volunteerTypeId = 1;
+        $gameId = fake()->uuid;
+        $volunteerTypeId = fake()->uuid;
 
         $volunteerMock = Mockery::mock(Volunteer::class)->makePartial();
         $volunteerMock->shouldReceive('save')->andReturnUsing(function () {

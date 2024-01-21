@@ -17,9 +17,9 @@ class LocalTeamFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => "Avon Handball",
-            'logo' => "https://avonhandball.fr/wp-content/uploads/2020/08/avon-handball-1.png",
-            'token' => 77210
+            'name' => fake()->name,
+            'logo' => fake()->url(),
+            'token' => fake()->numberBetween(10000, 99999)
         ];
     }
 }

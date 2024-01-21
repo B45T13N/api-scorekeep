@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\LocalTeamController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\VisitorTeamController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\VolunteerTypeController;
@@ -26,8 +27,8 @@ Route::middleware('api.public_key')->group(function () {
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
 
-        Route::post('/logout', [LoginController::class, 'logout'])->name('api.logout');
-        Route::post('/me', [LoginController::class, 'me'])->name('api.me');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
+        Route::post('/me', [AuthController::class, 'me'])->name('api.me');
 
         Route::put('games/addVolunteers/{gameId}', [GameController::class, 'addVolunteers'])->name('games.addVolunteers');
         Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');
@@ -39,7 +40,10 @@ Route::middleware('api.public_key')->group(function () {
         Route::put('/visitor-teams/{visitorTeamId}', [VisitorTeamController::class, 'update'])->name('visitor_teams.update');
     });
 
-    Route::post('/login', [LoginController::class, 'login'])->name('api.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('api.login');
+
+    Route::post('/password/reset-link', [ResetPasswordController::class, 'sendResetLinkEmail'])->name('password.reset-link');
+    Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.reset');
 
     Route::get('games', [GameController::class, 'index'])->name('games.index');
     Route::get('weekGames', [GameController::class, 'weekGames'])->name('games.weekGames');

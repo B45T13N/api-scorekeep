@@ -17,7 +17,7 @@ class VolunteerTypeControllerTest extends TestCase
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
-        getJson('/api/volunteer-types/show/'.$volunteerType->id);
+        getJson('/api/volunteer-types/show/'.$volunteerType->uuid);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -40,15 +40,13 @@ class VolunteerTypeControllerTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'data' => [
-                    [
-                        'id' => $volunteerType1->id,
-                        'label' => $volunteerType1->label,
-                    ],
-                    [
-                        'id' => $volunteerType2->id,
-                        'label' => $volunteerType2->label,
-                    ]
+                [
+                    'uuid' => $volunteerType1->uuid,
+                    'label' => $volunteerType1->label,
+                ],
+                [
+                    'uuid' => $volunteerType2->uuid,
+                    'label' => $volunteerType2->label,
                 ]
             ]);
     }

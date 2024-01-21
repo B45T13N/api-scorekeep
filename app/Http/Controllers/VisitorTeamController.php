@@ -26,11 +26,11 @@ class VisitorTeamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $visitorTeamId)
+    public function show(string $visitorTeamId)
     {
         try
         {
-            return new VisitorTeamResource(VisitorTeam::query()->findOrFail($visitorTeamId)->first());
+            return response()->json(new VisitorTeamResource(VisitorTeam::query()->findOrFail($visitorTeamId)->first()));
         }
         catch (ModelNotFoundException $e)
         {

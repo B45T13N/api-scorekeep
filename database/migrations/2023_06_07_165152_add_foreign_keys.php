@@ -13,34 +13,34 @@ return new class extends Migration
     {
         Schema::table('volunteers', function (Blueprint $table)
         {
-            $table->bigInteger('gameId')->unsigned();
-            $table->bigInteger('volunteerTypeId')->unsigned();
+            $table->uuid('gameId');
+            $table->uuid('volunteerTypeId');
 
-            $table->foreign('gameId')->references('id')->on('games');
-            $table->foreign('volunteerTypeId')->references('id')->on('volunteer_types');
+            $table->foreign('gameId')->references('uuid')->on('games');
+            $table->foreign('volunteerTypeId')->references('uuid')->on('volunteer_types');
         });
 
         Schema::table('games', function (Blueprint $table)
         {
-            $table->bigInteger('visitorTeamId')->unsigned();
-            $table->bigInteger('timekeeperId')->unsigned()->nullable();
-            $table->bigInteger('localTeamId')->unsigned()->nullable();
-            $table->bigInteger('secretaryId')->unsigned()->nullable();
-            $table->bigInteger('roomManagerId')->unsigned()->nullable();
-            $table->bigInteger('drinkManagerId')->unsigned()->nullable();
+            $table->uuid('visitorTeamId');
+            $table->uuid('timekeeperId')->nullable();
+            $table->uuid('localTeamId')->nullable();
+            $table->uuid('secretaryId')->nullable();
+            $table->uuid('roomManagerId')->nullable();
+            $table->uuid('drinkManagerId')->nullable();
 
-            $table->foreign('localTeamId')->references('id')->on('local_teams');
-            $table->foreign('timekeeperId')->references('id')->on('volunteers')->onDelete('cascade');
-            $table->foreign('secretaryId')->references('id')->on('volunteers')->onDelete('cascade');
-            $table->foreign('roomManagerId')->references('id')->on('volunteers')->onDelete('cascade');
-            $table->foreign('drinkManagerId')->references('id')->on('volunteers')->onDelete('cascade');
-            $table->foreign('visitorTeamId')->references('id')->on('visitor_teams')->onDelete('cascade');
+            $table->foreign('localTeamId')->references('uuid')->on('local_teams');
+            $table->foreign('timekeeperId')->references('uuid')->on('volunteers')->onDelete('cascade');
+            $table->foreign('secretaryId')->references('uuid')->on('volunteers')->onDelete('cascade');
+            $table->foreign('roomManagerId')->references('uuid')->on('volunteers')->onDelete('cascade');
+            $table->foreign('drinkManagerId')->references('uuid')->on('volunteers')->onDelete('cascade');
+            $table->foreign('visitorTeamId')->references('uuid')->on('visitor_teams')->onDelete('cascade');
         });
 
         Schema::table('users', function (Blueprint $table)
         {
-            $table->unsignedBigInteger('localTeamId');
-            $table->foreign('localTeamId')->references('id')->on('local_teams');
+            $table->uuid('localTeamId');
+            $table->foreign('localTeamId')->references('uuid')->on('local_teams');
         });
     }
 
