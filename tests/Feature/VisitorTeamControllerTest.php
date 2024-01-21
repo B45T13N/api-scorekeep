@@ -20,13 +20,11 @@ class VisitorTeamControllerTest extends TestCase
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
-        getJson('/api/visitor-teams/'.$visitorTeam->id);
+        getJson('/api/visitor-teams/'.$visitorTeam->uuid);
 
         $response->assertStatus(200)
             ->assertJson([
-                'data' => [
-                    'name' => $visitorTeam->name
-                ]
+                'name' => $visitorTeam->name
             ]);
     }
 

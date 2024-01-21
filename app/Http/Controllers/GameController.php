@@ -102,7 +102,7 @@ class GameController extends Controller
     public function store(Request $request, VisitorTeamController $visitorTeamController)
     {
         $validatedData = $request->validate([
-            'localTeamId' => 'required|exists:local_teams,id',
+            'localTeamId' => 'required|exists:local_teams,uuid',
             'address' => 'required|string',
             'category' => 'required|string',
             'visitorTeamName' => 'required|string',
@@ -124,7 +124,7 @@ class GameController extends Controller
 
         $visitorTeam = $visitorTeamController->store($request['visitorTeamName']);
 
-        $game->visitorTeamId = $visitorTeam->id;
+        $game->visitorTeamId = $visitorTeam->uuid;
 
         $game->save();
 
@@ -146,7 +146,7 @@ class GameController extends Controller
                 throw new ModelNotFoundException();
             }
 
-            return new GameResource($game);
+            return response()->json(new GameResource($game));
         }
         catch (ModelNotFoundException $e)
         {
@@ -286,7 +286,7 @@ class GameController extends Controller
                 'gameId' => 'string|exists:games,uuid',
             ]);
 
-            $gameId = intval($validatedData['gameId']);
+            $gameId = $validatedData['gameId'];
 
             $game = Game::query()->where("uuid", $gameId)->first();
 

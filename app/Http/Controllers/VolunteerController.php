@@ -64,7 +64,6 @@ class VolunteerController extends Controller
 
             return response()->json([
                 'message' => 'Bénévole enregistré avec succès',
-                'data' => $volunteer
             ], 201);
         }
         catch (\Throwable $e)

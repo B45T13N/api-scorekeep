@@ -25,22 +25,25 @@ class GameControllerTest extends TestCase
     public function testIndex()
     {
         VisitorTeam::factory()->create();
-
-        Game::factory(['visitorTeamId' => 1, 'gameDate' => Carbon::tomorrow("Europe/Paris")->toDateTimeString()])->count(3)->create();
+        $uuid = fake()->uuid;
+        Game::factory(['visitorTeamId' => $uuid, 'gameDate' => Carbon::tomorrow("Europe/Paris")->toDateTimeString()]);
+        Game::factory(['visitorTeamId' =>fake()->uuid, 'gameDate' => Carbon::tomorrow("Europe/Paris")->toDateTimeString()])->count(2)->create();
         $today = Carbon::now("Europe/Paris")->format("Y-m-d");
+
         $parameters = [
-            'local_team_id' => 1,
+            'local_team_id' => $uuid,
             'start_date' => $today,
             'end_date' => Carbon::now()->addWeek()->format("Y-m-d"),
         ];
+
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])
-            ->getJson(route('games.index') . '?' . http_build_query($parameters));
+            ->getJson(route('games.index', $parameters));
 
         $response->assertOk();
-        $response->assertJsonCount(3, 'data');
+        $response->assertJsonCount(3);
     }
 
     /**
@@ -52,7 +55,7 @@ class GameControllerTest extends TestCase
     {
         VisitorTeam::factory()->create();
 
-        Game::factory(['visitorTeamId' => 1, 'gameDate' => Carbon::tomorrow("Europe/Paris")->toDateTimeString()])->count(3)->create();
+        Game::factory(['visitorTeamId' => fake()->uuid, 'gameDate' => Carbon::tomorrow("Europe/Paris")->toDateTimeString()])->count(3)->create();
         $parameters = [
             'local_team_id' => 1,
         ];
@@ -60,10 +63,10 @@ class GameControllerTest extends TestCase
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])
-            ->getJson(route('games.weekGames') . '?' . http_build_query($parameters));
+            ->getJson(route('games.weekGames', $parameters));
 
         $response->assertOk();
-        $response->assertJsonCount(3, 'data');
+        $response->assertJsonCount(3);
     }
 
 
@@ -74,7 +77,7 @@ class GameControllerTest extends TestCase
      */
     public function testStore()
     {
-        LocalTeam::factory()->create();
+        $localTeam = LocalTeam::factory()->create();
 
         $visitorTeamName = $this->faker->name;
         $address = $this->faker->address;
@@ -101,7 +104,7 @@ class GameControllerTest extends TestCase
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
         postJson(route('games.store'), [
-            'localTeamId' => 1,
+            'localTeamId' => $localTeam->uuid,
             'address' => $address,
             'category' => $category,
             'visitorTeamName' => $visitorTeamName,
@@ -132,23 +135,20 @@ class GameControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         VisitorTeam::factory()->create();
-        $game = Game::factory()->create(["visitorTeamId" => 1]);
+        $game = Game::factory()->create(["visitorTeamId" => fake()->uuid]);
 
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
-        getJson(route('games.show', ['gameId' => $game->id]));
+        getJson(route('games.show', ['gameId' => $game->uuid]));
 
         $response->assertOk();
         $response->assertJson(
             [
-                'data' =>
-                    [
-                        "id" => $game->id,
-                        "address" => $game->address,
-                        "category" => $game->category,
-                    ]
+                "uuid" => $game->uuid,
+                "address" => $game->address,
+                "category" => $game->category,
             ]
         );
     }
@@ -199,14 +199,14 @@ class GameControllerTest extends TestCase
             'password' => "password",
         ]);
 
-        $game = Game::factory()->create(["visitorTeamId" => 1]);
+        $game = Game::factory()->create(["visitorTeamId" => fake()->uuid]);
         $date = Carbon::now()->addDay()->toDateTimeString();
         $address = "14 rue du temple 75000 Paris";
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
-        putJson(route('games.update', ['gameId' => $game->id]), [
+        putJson(route('games.update', ['gameId' => $game->uuid]), [
             'gameDate' => $date,
             'address' => $address
         ]);
@@ -215,7 +215,7 @@ class GameControllerTest extends TestCase
         $response->assertJson(['message' => 'Match mis à jour avec succès']);
 
         $this->assertDatabaseHas('games', [
-            'id' => $game->id,
+            'uuid' => $game->uuid,
             'address' => $address,
             'gameDate' => $date
         ]);
@@ -249,7 +249,7 @@ class GameControllerTest extends TestCase
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
-        putJson(route('games.update', ['gameId' => 9999]), [
+        putJson(route('games.update', ['gameId' => fake()->uuid]), [
             'gameDate' => Carbon::now()->addDay()->toDateTimeString(),
         ]);
 
@@ -284,36 +284,34 @@ class GameControllerTest extends TestCase
             'password' => "password",
         ]);
 
-        $game = Game::factory()->create(["visitorTeamId" => 1]);
+        $game = Game::factory()->create(["visitorTeamId" => fake()->uuid]);
 
-        VolunteerType::factory()->create();
-        VolunteerType::factory()->create();
-        VolunteerType::factory()->create();
-        VolunteerType::factory()->create();
-        Volunteer::factory()->create(['volunteerTypeId' => 1]);
-        Volunteer::factory()->create(['volunteerTypeId' => 2]);
-        Volunteer::factory()->create(['volunteerTypeId' => 3]);
-        Volunteer::factory()->create(['volunteerTypeId' => 4]);
+        $volunteerTypes = VolunteerType::factory(4)->create();
+        $vol1 = Volunteer::factory()->create(['volunteerTypeId' => $volunteerTypes[0]->uuid]);
+        $vol2 = Volunteer::factory()->create(['volunteerTypeId' => $volunteerTypes[1]->uuid]);
+        $vol3 = Volunteer::factory()->create(['volunteerTypeId' => $volunteerTypes[2]->uuid]);
+        $vol4 = Volunteer::factory()->create(['volunteerTypeId' => $volunteerTypes[3]->uuid]);
 
         $response = $this->
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
-        putJson(route('games.addVolunteers', ['gameId' => $game->id]), [
-            'timekeeperId' => 1,
-            'secretaryId' => 1,
-            'roomManagerId' => 1,
-            'drinkManagerId' => 1,
+        putJson(route('games.addVolunteers', ['gameId' => $game->uuid]), [
+            'timekeeperId' => $vol1->uuid,
+            'secretaryId' => $vol2->uuid,
+            'roomManagerId' => $vol3->uuid,
+            'drinkManagerId' => $vol4->uuid,
         ]);
 
         $response->assertOk();
         $response->assertJson(['message' => 'Match mis à jour avec succès']);
 
         $this->assertDatabaseHas('games', [
-            'id' => $game->id,
-            'timekeeperId' => 1,
-            'secretaryId' => 1,
-            'roomManagerId' => 1,
+            'uuid' => $game->uuid,
+            'timekeeperId' => $vol1->uuid,
+            'secretaryId' => $vol2->uuid,
+            'roomManagerId' => $vol3->uuid,
+            'drinkManagerId' => $vol4->uuid,
         ]);
     }
 
@@ -372,8 +370,8 @@ class GameControllerTest extends TestCase
     public function testAddVolunteersNonExistingVolunteer()
     {
         $this->withoutExceptionHandling();
-        VisitorTeam::factory()->create();
-        $game = Game::factory()->create(["visitorTeamId" => 1]);
+        $visitorTeam = VisitorTeam::factory()->create();
+        $game = Game::factory()->create(["visitorTeamId" => $visitorTeam->uuid]);
 
         $user = User::factory()->create(
             [
@@ -394,7 +392,7 @@ class GameControllerTest extends TestCase
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
-        putJson(route('games.addVolunteers', ['gameId' => 1]), [
+        putJson(route('games.addVolunteers', ['gameId' => $game->uuid]), [
             'timekeeperId' => 1,
             'secretaryId' => 1,
             'roomManagerId' => 1,
@@ -431,12 +429,12 @@ class GameControllerTest extends TestCase
         $response = $this->withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->postJson(route('games.delete'), [
-            'gameId' => $game->id,
+            'gameId' => $game->uuid,
         ]);
 
         $response->assertStatus(200);
 
-        $this->assertSoftDeleted('games', ['id' => $game->id]);
+        $this->assertSoftDeleted('games', ['uuid' => $game->uuid]);
     }
 
     /**
@@ -464,13 +462,13 @@ class GameControllerTest extends TestCase
         $response = $this->withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->postJson(route('games.confirm'), [
-            'gameId' => $game->id,
+            'gameId' => $game->uuid,
         ]);
 
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('games', [
-            'id' => $game->id,
+            'uuid' => $game->uuid,
             'isCancelled' => false,
             'cancelledDate' => null,
         ]);
@@ -501,13 +499,13 @@ class GameControllerTest extends TestCase
         $response = $this->withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->postJson(route('games.cancel'), [
-            'gameId' => $game->id,
+            'gameId' => $game->uuid,
         ]);
 
         $response->assertStatus(200);
 
         $this->assertDatabaseHas('games', [
-            'id' => $game->id,
+            'uuid' => $game->uuid,
             'isCancelled' => true,
             'cancelledDate' => now(),
         ]);

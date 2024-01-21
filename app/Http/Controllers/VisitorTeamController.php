@@ -30,7 +30,7 @@ class VisitorTeamController extends Controller
     {
         try
         {
-            return new VisitorTeamResource(VisitorTeam::query()->findOrFail($visitorTeamId)->first());
+            return response()->json(new VisitorTeamResource(VisitorTeam::query()->findOrFail($visitorTeamId)->first()));
         }
         catch (ModelNotFoundException $e)
         {

@@ -58,7 +58,7 @@ class LocalTeamController extends Controller
         try {
             $localTeam = LocalTeam::findOrFail($localTeamId);
 
-            return new LocalTeamResource($localTeam);
+            return response()->json(new LocalTeamResource($localTeam));
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'message' => 'Equipe visiteur non trouvée',

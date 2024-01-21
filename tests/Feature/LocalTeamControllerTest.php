@@ -19,13 +19,11 @@ class LocalTeamControllerTest extends TestCase
         withHeaders([
             'Scorekeep-API-Key' => env('API_PUBLIC_KEY'),
         ])->
-        getJson('/api/local-teams/'.$localTeam->id);
+        getJson('/api/local-teams/'.$localTeam->uuid);
 
         $response->assertStatus(200)
             ->assertJson([
-                'data' => [
-                    'name' => $localTeam->name
-                ]
+                'name' => $localTeam->name
             ]);
     }
 
