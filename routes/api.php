@@ -4,6 +4,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\LocalTeamController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\UpdatePasswordController;
 use App\Http\Controllers\VisitorTeamController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\VolunteerTypeController;
@@ -29,6 +30,8 @@ Route::middleware('api.public_key')->group(function () {
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
         Route::post('/me', [AuthController::class, 'me'])->name('api.me');
+
+        Route::post('/password/update', [UpdatePasswordController::class, 'update'])->name('password.update');
 
         Route::put('games/addVolunteers/{gameId}', [GameController::class, 'addVolunteers'])->name('games.addVolunteers');
         Route::put('games/{gameId}', [GameController::class, 'update'])->name('games.update');

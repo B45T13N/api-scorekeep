@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*', 'https://app.scorekeep.org'],
+    'allowed_origins' => ['*', env('APP_FRONT_URL', 'http://localhost:3000')],
 
     'allowed_origins_patterns' => [],
 
