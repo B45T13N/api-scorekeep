@@ -1,0 +1,58 @@
+@import 'variables';
+@import "normalize.css";
+
+@font-face {
+  font-family: "Lato-Regular";
+  src: local("Lato-Regular"), url("../public/fonts/Lato-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Lato-Bold";
+  src: local("Lato-Bold"), url("../public/fonts/Lato-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Lato-Italic";
+  src: local("Lato-Italic"), url("../public/fonts/Lato-Italic.ttf") format("truetype");
+}
+
+div.page {
+  margin: 0;
+  min-height: calc(90vh - 80px);;
+  font-family: Lato-Regular, serif;
+  color: $text-color;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  button{
+    font-family: Lato-Bold, serif;
+  }
+
+  a{
+    text-decoration: none;
+  }
+  a, a:visited{
+    color: $text-color;
+  }
+}
+
+@media(max-width: $layout-breakpoint-small){
+  header.app-header{
+    position: sticky;
+    top: 0;
+    z-index: 4;
+  }
+  .hidden-s{
+    display: none;
+  }
+  table.app-table{
+    font-size: 0.8em;
+    button{
+      font-size: 0.9em;
+    }
+  }
+}
+
+@media(max-width: $layout-breakpoint-extra-small){
+  .hidden-xs{
+    display: none !important;
+  }
+}

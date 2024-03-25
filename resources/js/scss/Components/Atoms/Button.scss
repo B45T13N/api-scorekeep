@@ -1,0 +1,30 @@
+button{
+  font-size: 17px;
+  font-weight: 500;
+  padding: 10px 7px;
+  color: $text-color;
+  border-radius: 5px;
+  transition: all $transition-duration;
+  border: solid 1px;
+  &.valid{
+    background: $base-blue;
+    border-color: whitesmoke;
+    color: whitesmoke;
+    &:hover{
+      color: $text-color;
+      border-color: $base-blue;
+      background: whitesmoke;
+    }
+  }
+
+  &.error{
+    background: $button-error-color;
+    &:hover{
+      background: whitesmoke;
+    }
+  }
+
+  &:hover{
+    cursor: pointer;
+  }
+}

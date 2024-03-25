@@ -1,0 +1,35 @@
+
+
+div.radio-input{
+  width: 100%;
+  font-family: Lato-Bold, serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $card-background;
+  border: 1px solid $base-blue;
+  border-radius: 5px;
+
+  &:hover, label:hover{
+    cursor: pointer;
+  }
+
+  label{
+    height: 100%;
+    width: 100%;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.selected {
+    background-color: $base-blue;
+    color: whitesmoke;
+    border-color: $card-background;
+  }
+
+  input[type="radio"]{
+    display: none;
+  }
+}

@@ -1,0 +1,40 @@
+@import "/styles/variables";
+
+article.teams-content{
+  margin: 15px auto;
+  padding: 20px;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  background: $card-background;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+
+  h2{
+    text-align: center;
+  }
+
+  section.teams-display{
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-row-gap: 10px;
+    grid-column-gap: 20px;
+  }
+}
+
+@media(max-width: $layout-breakpoint-medium){
+  article.teams-content{
+    section.teams-display{
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+@media(max-width: $layout-breakpoint-small){
+  article.teams-content{
+    section.teams-display{
+      grid-template-columns: 1fr;
+    }
+  }
+}

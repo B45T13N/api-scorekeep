@@ -1,0 +1,29 @@
+
+
+div.match-card{
+  background: #CCC;
+  height: 110px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+
+  &:hover{
+    cursor: pointer;
+  }
+
+  p{
+    margin: 0;
+  }
+
+  p.bold{
+    font-weight: bold;
+  }
+
+  &.no-hover{
+    cursor: auto;
+  }
+}

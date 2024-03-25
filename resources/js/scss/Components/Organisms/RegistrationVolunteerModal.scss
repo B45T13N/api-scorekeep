@@ -1,0 +1,138 @@
+
+
+.dark-bg {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal {
+  width: 300px;
+  height: 450px;
+  background: $card-background;
+  z-index: 10;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+
+  .error{
+    text-align: center;
+  }
+
+  .form-submit{
+    margin: 15px auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.modal-header {
+  height: 80px;
+  background: white;
+  overflow: hidden;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+
+  p{
+    margin: 0;
+    text-align: center;
+  }
+}
+
+.heading {
+  margin: 0;
+  padding: 10px;
+  color: $text-color;
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+}
+
+.modal-actions {
+  position: absolute;
+  bottom: 2px;
+  margin-bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.actions-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.close-btn {
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: none;
+  font-size: 18px;
+  background: white;
+  transition: all 0.25s ease;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.06);
+  position: absolute;
+  right: 0;
+  top: 0;
+  align-self: flex-end;
+  margin-top: -7px;
+  margin-right: -7px;
+
+  :hover {
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+  }
+}
+
+.confirm-btn {
+  font-family: Lato-Regular, serif;
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 11px 28px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  border: 1px solid whitesmoke;
+  background: $base-blue;
+  color:whitesmoke;
+  transition: all 0.25s ease;
+
+  &:hover {
+    color: $text-color;
+    border: 1px solid $base-blue;
+    background: whitesmoke;
+  }
+}
+
+.cancel-btn {
+  font-family: Lato-Regular, serif;
+  margin-top: 10px;
+  cursor: pointer;
+  padding: 11px 28px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  border: 1px solid whitesmoke;
+  background: $button-error-color;
+  transition: all 0.25s ease;
+
+  &:hover {
+    border: 1px solid $button-error-color;
+    box-shadow: none;
+    transform: none;
+    background: whitesmoke;
+  }
+}

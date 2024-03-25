@@ -1,0 +1,93 @@
+
+
+.input-container{
+  margin: 5px 0;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 80%;
+  label{
+    height: 20px;
+  }
+  &._hasValue{
+    label.floating {
+      font-size: 18px;
+      background: $card-background;
+      left: 8px;
+      max-width: $label-scale-width;
+      padding: 0 5px;
+      transform: translate3d(
+                      0,
+                      calc(-100% - 12 * 0.5px),
+                      0
+      )
+      scale3d($label-scale-factor, $label-scale-factor, 1);
+    }
+
+  }
+
+  &._focused{
+    label.floating {
+      font-size: 18px;
+      background: $card-background;
+      left: 8px;
+      max-width: $label-scale-width;
+      padding: 0 5px;
+      transform: translate3d(
+                      0,
+                      calc(-100% - 12 * 0.5px),
+                      0
+      )
+      scale3d($label-scale-factor, $label-scale-factor, 1);
+    }
+  }
+
+  input{
+    font-size: 17px;
+    background: $card-background;
+    color: $text-color;
+    font-family: Lato-Bold, serif;
+    padding: 16px 14px;
+    outline: none;
+    width: 100%;
+    border: 2px $text-color solid;
+    border-radius: 5px;
+
+    &:focus {
+      border-color: $base-blue;
+    }
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px $card-background inset;
+  }
+  label.floating{
+    user-select: none;
+    left: $padding-horizontal;
+    line-height: calc((12 * 1px) * 1.45);
+    max-width: calc(100% - 15px);
+    overflow: hidden;
+    position: absolute;
+    text-overflow: ellipsis;
+    transition-duration: $transition-duration;
+    transform-origin: 0 0;
+    transition-property: color, font-size, padding, transform, max-width, left;
+    transition-timing-function: $transition-timing-function;
+    white-space: nowrap;
+  }
+
+  .password-toggle{
+    font-weight: bold;
+    position: absolute;
+    right: 5px;
+    cursor: pointer;
+  }
+}

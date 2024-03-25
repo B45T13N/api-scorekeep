@@ -1,0 +1,41 @@
+
+
+a.navlink{
+  font-size: 1.3vw;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 10px;
+  color: $text-color;
+  font-family: Lato-Regular, serif;
+  font-weight: bold;
+  &::after {
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 3px;
+    left: 50%;
+    position: absolute;
+    background: $text-color;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    width: 0;
+  }
+
+  &:hover::after {
+    width: 100%;
+    left: 0;
+  }
+}
+
+a.active{
+  &::after {
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 3px;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    background: $text-color;
+    transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  }
+}

@@ -1,0 +1,21 @@
+
+
+div.team-card{
+  background: #CCC;
+  height: 110px;
+  width: 250px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  font-size: 18px;
+
+  &:hover{
+    cursor: pointer;
+  }
+
+  p{
+    font-family: Lato-Italic, serif;
+  }
+}

@@ -1,0 +1,21 @@
+
+
+a.dashboard-link{
+  height: 150px;
+  width: 150px;
+  background: $card-background;
+  margin: 0 auto;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  box-shadow: $box-shadow;
+  transition-duration: $transition-duration;
+  &:hover{
+    scale: 1.2;
+  }
+
+  p{
+    text-align: center;
+  }
+}

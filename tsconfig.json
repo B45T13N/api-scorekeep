@@ -12,8 +12,32 @@
         "noEmit": true,
         "paths": {
             "@/*": ["./resources/js/*"],
-            "ziggy-js": ["./vendor/tightenco/ziggy"]
+            "ziggy-js": ["./vendor/tightenco/ziggy"],
+            "@/Components/*": [
+                "./resources/js/Components/*"
+            ],
+            "@/./resources/*": [
+                "./resources/js/*"
+            ],
+            "@/pages/*": [
+                "./resources/js/Pages/*"
+            ],
+            "@/services/*": [
+                "./resources/js/services/*"
+            ],
+            "@/interfaces/*": [
+                "./resources/js/Models/*"
+            ],
+            "@/hooks/*": [
+                "./resources/js/Hooks/*"
+            ],
+            "@/images/*": [
+                "./resources/js/images/*"
+            ],
+            "@/styles/*": [
+                "./resources/js/styles/*"
+            ]
         }
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"]
+    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"],
 }

@@ -1,0 +1,81 @@
+@import "styles/global";
+
+article.add-match{
+  min-height: 60vh;
+  margin: 20px 0;
+  width: 90%;
+  text-align: center;
+  background: $card-background;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+
+  form{
+    .datepicker{
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      margin: 5px auto 15px auto;
+
+      label{
+        text-align: left;
+        margin-bottom: 2px;
+      }
+
+      input{
+        font-size: 17px;
+        background: rgba(255, 255, 255, 0.2);
+        color: #404040;
+        font-family: Lato-Bold, serif;
+        padding: 16px 14px;
+        outline: none;
+        width: 92%;
+        border: 2px #404040 solid;
+        border-radius: 5px;
+      }
+    }
+
+    fieldset{
+      width: 80%;
+      margin: 10px auto;
+
+      legend{
+        text-align: left;
+      }
+    }
+
+    .input-container{
+      margin: 20px auto;
+    }
+
+    div.btn-form{
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      margin: 0 auto;
+
+      a{
+        button{
+          width: 100%;
+        }
+      }
+
+      button{
+        margin: 5px 0;
+        padding: 5px 10px;
+        border: solid 1px $base-blue;
+        border-radius: 5px;
+        color: #404040;
+        background: whitesmoke;
+        cursor: pointer;
+        transition: all 0.4s;
+        font-weight: bold;
+
+        &:hover{
+          background-color: $base-blue;
+          color: whitesmoke;
+          border-color: whitesmoke;
+        }
+      }
+    }
+  }
+}

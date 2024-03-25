@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::post('/register', [\App\Http\Controllers\Api\RegisterController::class, 'register']);
-
 Route::middleware('api.public_key')->group(function () {
 
     Route::group(['middleware' => 'auth:sanctum'], function () {

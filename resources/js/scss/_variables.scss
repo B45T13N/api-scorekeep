@@ -1,0 +1,21 @@
+$base-blue: #0240b7;
+$button-hover: whitesmoke;
+$text-color: #212121;
+$card-background: #efefef;
+$button-error-color: #CCBCAD;
+$input-error-color: #ab3a68;
+$layout-breakpoint-medium: 1024px;
+$layout-breakpoint-small: 768px;
+$layout-breakpoint-extra-small: 576px;
+$transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+$transition-duration: 0.4s;
+$label-scale-factor: calc(14 / 16);
+$floating-label__padding-horizontal: 4px;
+$padding-horizontal: 14px;
+$label-scale-width: calc(
+(
+100% - #{$padding-horizontal * 2} - #{$floating-label__padding-horizontal}
+) / var(--label-scale-factor)
+);
+$box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.25);
+$border-radius: 15px;
